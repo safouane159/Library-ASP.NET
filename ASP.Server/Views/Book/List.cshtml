@@ -43,16 +43,24 @@
                              {
                                     <tr>
                                         <td>@book.Id</td>
-                                        <td>@book.Titre</td>
+                                        <td><div class="chip grey darken-1 white-text">@book.Titre</div></td>
                                         <td>
                                           @( book.Contenu != null && book.Contenu.Length >= 70 ? book.Contenu.Substring(0, 70)+"..." : book.Contenu)
                                         </td>
-                                        <td>@book.Auteur</td>
-                                        <td>@book.Prix</td>
+                                        <td>
+                                            <div class="chip deep-purple darken-3 white-text z-depth-1">
+                                                @(book.Auteur != null ? book.Auteur : "-")
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="chip blue darken-4 white-text z-depth-1">
+                                                @book.Prix $
+                                            </div>
+                                        </td>
                                         <td>
                                             @foreach (Genre genre in book.Genres)
                                             {
-                                                <div class="chip">
+                                                <div class="chip lime z-depth-1">
                                                     @genre.Label
                                                 </div>
                                             }
