@@ -33,6 +33,7 @@ namespace ASP.Server.Controllers
         private readonly LibraryDbContext libraryDbContext;
 
         private BookService bookService;
+        private GenreService genreService;
 
         public BookController(BookService bookService, LibraryDbContext libraryDbContext)
         {
@@ -44,7 +45,7 @@ namespace ASP.Server.Controllers
         public  ActionResult<IEnumerable<Book>> List()
         {
             // récupérer les livres dans la base de donées pour qu'elle puisse être affiché
-            List<Book> ListBooks = null;
+            List<Book> ListBooks = this.bookService.GetBooks();
 
           
             return View(ListBooks);
@@ -73,7 +74,6 @@ namespace ASP.Server.Controllers
             Book b = new Book { Titre = "hello" };
 
             bookService.AddBook(b);
-
 
 
             List<Book> bListTest = bookService.GetBooks();

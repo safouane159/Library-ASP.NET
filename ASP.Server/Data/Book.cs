@@ -22,12 +22,12 @@ namespace ASP.Server.Model
 
         public String Auteur { get; set; }
 
-        public int Prix { get; set; }
- 
+        public Double Prix { get; set; }
+
         public virtual ICollection<Genre> Genres { get; set; }
 
 
-  
+
 
     }
     public static class BookExtensions
@@ -58,8 +58,8 @@ namespace ASP.Server.Model
 
         public String Auteur { get; set; }
 
-        public int Prix { get; set; }
-  
+        public Double Prix { get; set; }
+      
         public virtual ICollection<Genre> Genres { get; set; }
 
 
