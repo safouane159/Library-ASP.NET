@@ -55,11 +55,46 @@ namespace ASP.Server.Api
         //   - Ex: libraryDbContext.MyObjectCollection.Include(x => x.yyyyy).Where(x => x.yyyyyy.Contains(z)).Skip(i).Take(j).ToList()
 
 
-        // Je vous montre comment faire la 1er, a vous de la compléter et de faire les autres !
-        public ActionResult<List<Book>> GetBooks()
+        [HttpGet]
+        public ActionResult<List<BookDTO>> GetBooks(int limit = 10, int offset = 0)
         {
-            throw new NotImplementedException("You have to do it your self");
+
+            var books = libraryDbContext.Books
+            .Include(b => b.Genres)
+            .OrderBy(b => b.Id)
+            .Skip(offset)
+            .Take(limit)
+            .ToList();
+
+            var bookDTO = books.Select(b => b.ToBookDTO());
+
+            return Ok(bookDTO);
+            
         }
+
+        [HttpGet("{id}")]
+        public ActionResult<Book> GetBook(int id)
+        {
+            var book = libraryDbContext.Books.Include(b => b.Genres).FirstOrDefault(b => b.Id == id);
+
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(book);
+        }
+
+
+        [HttpGet]
+        public ActionResult<Genre> GetGenres()
+        {
+            List<Genre> genres = libraryDbContext.Genres.ToList();
+
+          
+            return Ok(genres);
+        }
+
 
     }
 }
