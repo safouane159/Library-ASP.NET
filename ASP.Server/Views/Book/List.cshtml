@@ -1,7 +1,7 @@
 ﻿@using ASP.Server.Model
 @model IEnumerable<Book>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Books Page";
 }
 
 <section class="cars-list-wrapper section">
@@ -66,7 +66,8 @@
                                             }
                                         </td>
                                         <td>
-                                            <a class="mb-6 btn-floating waves-effect waves-light gradient-45deg-light-blue-cyan gradient-shadow">
+                                            <a asp-area="" asp-controller="Book" asp-action="View" asp-route-id="@book.Id"
+                                               class="mb-6 btn-floating waves-effect waves-light gradient-45deg-light-blue-cyan gradient-shadow">
                                                 <i class="material-icons">remove_red_eye</i>
                                             </a>
                                             <a class="mb-6 btn-floating waves-effect waves-light gradient-45deg-amber-amber gradient-shadow">

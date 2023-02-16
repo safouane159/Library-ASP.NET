@@ -68,10 +68,21 @@ namespace ASP.Server.Controllers
             return View(new CreateBookModel() { AllGenres = null } );
         }
 
+
+
+        public ActionResult<Book> View(int id = 0)
+        {
+
+            
+            // Il faut interoger la base pour récupérer tous les genres, pour que l'utilisateur puisse les slécétionné
+            return View(bookService.GetBookById(id));
+        }
+
+
+
         [HttpDelete]
         public bool Delete([FromForm] int[] ids)
         {
-            Console.WriteLine("in delete function");
 
             try
             {
