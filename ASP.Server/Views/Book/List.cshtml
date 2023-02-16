@@ -25,7 +25,7 @@
                             <tr>
                                 <th>
                                     <label class="checkbox checkbox-single">
-                                        <input type="checkbox" value="" class="group-checkable" />
+                                        <input type="checkbox" id="checkAllInputs" value="" class="group-checkable" onclick="checkAllInputs()"/>
                                         <span></span>
                                     </label>
                                 </th>
@@ -162,6 +162,20 @@
 
         }
 
+
+
+        function checkAllInputs() {
+
+            let checked =  false;
+
+            if (document.getElementById("checkAllInputs").checked) {
+                checked = true;
+            }
+
+            $('#books_datatable input[class="checkable"]').each(function () {
+                jQuery(this).prop("checked", checked);
+            });
+        }
 
 
 
