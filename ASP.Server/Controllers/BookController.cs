@@ -58,8 +58,9 @@ namespace ASP.Server.Controllers
                 // Il faut intéroger la base pour récupérer l'ensemble des objets genre qui correspond aux id dans CreateBookModel.Genres
                 List<Genre> genres = null;
                 // Completer la création du livre avec toute les information nécéssaire que vous aurez ajoutez, et metter la liste des gener récupéré de la base aussi
-                libraryDbContext.Add(new Book() {  });
-                libraryDbContext.SaveChanges();
+            //    bookService.AddBook(b);
+
+                //redirect
             }
 
             // Il faut interoger la base pour récupérer tous les genres, pour que l'utilisateur puisse les slécétionné
