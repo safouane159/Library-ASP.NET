@@ -69,6 +69,17 @@ namespace ASP.Server.Controllers
         }
 
 
+        public bool Delete(int id = 0)
+        {
+            Console.WriteLine($"ID => {id}");
+
+            bookService.DeleteBook(id);
+
+            return true;
+
+        }
+
+
          public String testa()
         {
             Book b = new Book { Titre = "hello" };

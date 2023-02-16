@@ -72,7 +72,9 @@
                                             <a class="mb-6 btn-floating waves-effect waves-light gradient-45deg-amber-amber gradient-shadow">
                                                 <i class="material-icons">edit</i>
                                             </a>
-                                            <a class="mb-6 btn-floating waves-effect waves-light gradient-45deg-purple-deep-orange gradient-shadow">
+                                            <a
+                                               onclick="deleteBook(@book.Id)"
+                                               class="mb-6 btn-floating waves-effect waves-light gradient-45deg-purple-deep-orange gradient-shadow">
                                                 <i class="material-icons">delete_forever</i>
                                             </a>
                                         </td>
@@ -87,6 +89,52 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+
+        function deleteBook(id = 0) {
+            console.log(id);
+
+            Swal.fire({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/Book/Delete/"+id,
+                    }).done(function () {
+                        Swal.fire(
+                            'Deleted!',
+                            'The book has been deleted.',
+                            'success'
+                        )
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000)
+                    });
+
+
+
+                
+              }
+            })
+
+        }
+
+
+
+
+
+    </script>
+
+
+
 
 
 </section>
