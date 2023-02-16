@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using YamlDotNet.Core.Tokens;
 
 
@@ -22,7 +23,7 @@ namespace ASP.Server.Model
         public String Auteur { get; set; }
 
         public int Prix { get; set; }
-      
+ 
         public virtual ICollection<Genre> Genres { get; set; }
 
 
@@ -58,7 +59,7 @@ namespace ASP.Server.Model
         public String Auteur { get; set; }
 
         public int Prix { get; set; }
-
+  
         public virtual ICollection<Genre> Genres { get; set; }
 
 
