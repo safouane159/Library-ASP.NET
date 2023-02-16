@@ -16,6 +16,10 @@ namespace ASP.Server.Model
 
         public String Titre { get; set; }
 
+        public String Contenu { get; set; }
+
+        public String Auteur { get; set; }
+
         public int Prix { get; set; }
       
         public virtual ICollection<Genre> Genres { get; set; }

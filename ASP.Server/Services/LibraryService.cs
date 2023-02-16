@@ -44,6 +44,8 @@ namespace ASP.Server.Service
             if (existingBook != null)
             {
                 existingBook.Titre = book.Titre;
+                existingBook.Contenu = book.Contenu;
+                existingBook.Auteur = book.Auteur;
                 existingBook.Prix = book.Prix;
                 existingBook.Genres = book.Genres;
 
