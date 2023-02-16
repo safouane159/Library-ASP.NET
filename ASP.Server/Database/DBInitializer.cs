@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Reflection.Emit;
 
 namespace ASP.Server.Database
 {
@@ -18,21 +19,24 @@ namespace ASP.Server.Database
                 return;
 
             Genre SF, Classic, Romance, Thriller;
-            bookDbContext.Genre.AddRange(
-                SF = new Genre(),
-                Classic = new Genre(),
-                Romance = new Genre(),
-                Thriller = new Genre()
+            bookDbContext.Genres.AddRange(
+                new Genre { Label = "Science fiction"},
+          //      Classic = new Genre{ },
+        //        Romance = new Genre{ },
+                 new Genre{ Label = "Dramas" }
             );
             bookDbContext.SaveChanges();
 
             // Une fois les moèles complété Vous pouvez faire directement
             // new Book() { Author = "xxx", Name = "yyy", Price = n.nnf, Content = "ccc", Genres = new() { Romance, Thriller } }
             bookDbContext.Books.AddRange(
-                new Book(), 
-                new Book(),
-                new Book(),
-                new Book()
+                new Book { Titre = "48 law of power", Prix = 40} , 
+                //new Book { titre = "48 law of power  ", prix = 40 },
+              //  new Book { titre = "48 law of power  ", prix = 40 },
+                new Book { Titre = "mastery  ", Prix = 29 }
+
+
+
             );
             // Vous pouvez initialiser la BDD ici
 

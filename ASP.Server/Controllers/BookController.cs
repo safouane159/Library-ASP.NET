@@ -6,6 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using ASP.Server.Service;
+using System.Threading.Tasks;
+
 
 namespace ASP.Server.Controllers
 {
@@ -28,15 +32,21 @@ namespace ASP.Server.Controllers
     {
         private readonly LibraryDbContext libraryDbContext;
 
-        public BookController(LibraryDbContext libraryDbContext)
+        private BookService bookService;
+
+        public BookController(BookService bookService, LibraryDbContext libraryDbContext)
         {
             this.libraryDbContext = libraryDbContext;
+
+            this.bookService = bookService;
         }
 
-        public ActionResult<IEnumerable<Book>> List()
+        public  ActionResult<IEnumerable<Book>> List()
         {
             // récupérer les livres dans la base de donées pour qu'elle puisse être affiché
             List<Book> ListBooks = null;
+
+          
             return View(ListBooks);
         }
 
@@ -55,5 +65,25 @@ namespace ASP.Server.Controllers
             // Il faut interoger la base pour récupérer tous les genres, pour que l'utilisateur puisse les slécétionné
             return View(new CreateBookModel() { AllGenres = null } );
         }
+
+
+         public String testa()
+        {
+            Book b = new Book { Titre = "hello" };
+
+            bookService.AddBook(b);
+
+
+
+            List<Book> bListTest = bookService.GetBooks();
+            foreach (var book in bListTest)
+            {
+                Console.WriteLine($"- Book ID: {book.Id}, Titre: {book.Titre}, Prix: {book.Prix}");
+            }
+            return "hi";
+           // return libraryDbContext.Books.Single(a => a.Titre == "48 law of power").Titre;
+        }
+
+
     }
 }

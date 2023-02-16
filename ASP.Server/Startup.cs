@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Threading.Tasks;
 using System.Globalization;
+using ASP.Server.Service;
 
 namespace ASP.Server
 {
@@ -31,6 +32,8 @@ namespace ASP.Server
             {
                 options.ModelBinderProviders.Insert(0, new CustomBinderProvider());
             });
+            services.AddScoped < BookService>();
+            services.AddScoped<BookService>();
         }
         public class CustomBinderProvider : IModelBinderProvider
         {
