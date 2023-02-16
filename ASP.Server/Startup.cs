@@ -32,7 +32,7 @@ namespace ASP.Server
             {
                 options.ModelBinderProviders.Insert(0, new CustomBinderProvider());
             });
-            services.AddScoped < BookService>();
+            services.AddScoped<GenreService>();
             services.AddScoped<BookService>();
         }
         public class CustomBinderProvider : IModelBinderProvider
