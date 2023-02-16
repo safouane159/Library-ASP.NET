@@ -68,12 +68,24 @@ namespace ASP.Server.Controllers
             return View(new CreateBookModel() { AllGenres = null } );
         }
 
-
-        public bool Delete(int id = 0)
+        [HttpDelete]
+        public bool Delete([FromForm] int[] ids)
         {
-            Console.WriteLine($"ID => {id}");
+            Console.WriteLine("in delete function");
 
-            bookService.DeleteBook(id);
+            try
+            {
+                foreach (var id in ids)
+                {
+                    bookService.DeleteBook(id);
+                }
+
+             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+            }
+
 
             return true;
 

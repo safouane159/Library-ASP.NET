@@ -9,7 +9,7 @@
         <a href="/trips/create" class="btn waves-effect waves-light btn-small" type="button">
             <i class="material-icons left">add</i> Add book
         </a>
-        <button class="btn waves-effect waves-light red btn-small" type="button">
+        <button class="btn waves-effect waves-light red btn-small" onclick="deleteBook(0)">
             <i class="material-icons left">delete_forever</i> Delete books
         </button>
     </div>
@@ -20,7 +20,7 @@
             <div class="card-content">
                 <!-- datatable start -->
                 <div class="responsive-table">
-                    <table id="cars_datatable" class="table striped">
+                    <table id="books_datatable" class="table striped">
                         <thead>
                             <tr>
                                 <th>
@@ -42,10 +42,10 @@
                             @foreach (var book in Model)
                              {
                                     <tr>
-                                        <td>@book.Id</td>
+                                        <td><label class="checkbox checkbox-single"><input type="checkbox" name="ids_books[]" value="@book.Id" class="checkable" /><span></span></label></td>
                                         <td><div class="chip grey darken-1 white-text">@book.Titre</div></td>
                                         <td>
-                                          @( book.Contenu != null && book.Contenu.Length >= 70 ? book.Contenu.Substring(0, 70)+"..." : book.Contenu)
+                                            @( book.Contenu != null && book.Contenu.Length >= 70 ? book.Contenu.Substring(0, 70)+"..." : book.Contenu)
                                         </td>
                                         <td>
                                             <div class="chip deep-purple darken-3 white-text z-depth-1">
@@ -72,8 +72,7 @@
                                             <a class="mb-6 btn-floating waves-effect waves-light gradient-45deg-amber-amber gradient-shadow">
                                                 <i class="material-icons">edit</i>
                                             </a>
-                                            <a
-                                               onclick="deleteBook(@book.Id)"
+                                            <a onclick="deleteBook(@book.Id)"
                                                class="mb-6 btn-floating waves-effect waves-light gradient-45deg-purple-deep-orange gradient-shadow">
                                                 <i class="material-icons">delete_forever</i>
                                             </a>
@@ -93,8 +92,38 @@
 
     <script>
 
-        function deleteBook(id = 0) {
+        function deleteBook(id) {
             console.log(id);
+
+
+            var arrayIds = new Array();
+            var j = 0;
+
+
+            //id = 0 ==> Suppression multiple
+            if (id > 0) {
+                arrayIds[0] = id;
+            } else {
+                $('#books_datatable input[class="checkable"]').each(function () {
+                    var checked = jQuery(this).is(":checked");
+                    if (checked) {
+                        arrayIds[j] = jQuery(this).val();
+                        j++;
+                    }
+                });
+            }
+
+            console.log(arrayIds)
+
+            if (arrayIds.length < 1) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please choose the books you want tot delete!',
+                })
+            } else {
+               
+            }
 
             Swal.fire({
               title: 'Are you sure?',
@@ -107,16 +136,22 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "/Book/Delete/"+id,
+                        url: "/Book/Delete",
+                        type: "DELETE",
+                        cache: false,
+                        data: {
+                            ids: arrayIds
+                        },
+                        traditional:true,
+                        dataType: "JSON",
                     }).done(function () {
                         Swal.fire(
                             'Deleted!',
                             'The book has been deleted.',
                             'success'
-                        )
-                        setTimeout(function () {
+                        ).then((result) => {
                             location.reload();
-                        }, 2000)
+                        });
                     });
 
 
