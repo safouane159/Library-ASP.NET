@@ -4,11 +4,81 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="listeBooks">
-    <h1>Liste des livres:</h1>
-    <!-- la liste des genres est dans la variable Model qui est typé en ligne 3, elle correspond à la variable xxx dans View(xxx) du controller -->
-    @foreach (var book in Model)
-    {
-    }
-</div>
+<section class="cars-list-wrapper section">
+    <div class="card-panel">
+        <a href="/trips/create" class="btn waves-effect waves-light btn-small" type="button">
+            <i class="material-icons left">add</i> Add book
+        </a>
+        <button class="btn waves-effect waves-light red btn-small" type="button">
+            <i class="material-icons left">delete_forever</i> Delete books
+        </button>
+    </div>
 
+
+    <div class="cars-list-table">
+        <div class="card">
+            <div class="card-content">
+                <!-- datatable start -->
+                <div class="responsive-table">
+                    <table id="cars_datatable" class="table striped">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <label class="checkbox checkbox-single">
+                                        <input type="checkbox" value="" class="group-checkable" />
+                                        <span></span>
+                                    </label>
+                                </th>
+                                <th>Title</th>
+                                <th>Content</th>
+                                <th>Author</th>
+                                <th>Price</th>
+                                <th>Categories</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var book in Model)
+                             {
+                                    <tr>
+                                        <td>@book.Id</td>
+                                        <td>@book.Titre</td>
+                                        <td>
+                                          @( book.Contenu != null && book.Contenu.Length >= 70 ? book.Contenu.Substring(0, 70)+"..." : book.Contenu)
+                                        </td>
+                                        <td>@book.Auteur</td>
+                                        <td>@book.Prix</td>
+                                        <td>
+                                            @foreach (Genre genre in book.Genres)
+                                            {
+                                                <div class="chip">
+                                                    @genre.Label
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a class="mb-6 btn-floating waves-effect waves-light gradient-45deg-light-blue-cyan gradient-shadow">
+                                                <i class="material-icons">remove_red_eye</i>
+                                            </a>
+                                            <a class="mb-6 btn-floating waves-effect waves-light gradient-45deg-amber-amber gradient-shadow">
+                                                <i class="material-icons">edit</i>
+                                            </a>
+                                            <a class="mb-6 btn-floating waves-effect waves-light gradient-45deg-purple-deep-orange gradient-shadow">
+                                                <i class="material-icons">delete_forever</i>
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- datatable ends -->
+            </div>
+        </div>
+    </div>
+
+
+</section>
