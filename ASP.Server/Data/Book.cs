@@ -20,7 +20,7 @@ namespace ASP.Server.Model
 
         public String Contenu { get; set; }
 
-        public String Auteur { get; set; }
+        public Auteur Auteur { get; set; }
 
         public Double Prix { get; set; }
 
@@ -56,7 +56,7 @@ namespace ASP.Server.Model
 
 
 
-        public String Auteur { get; set; }
+        public Auteur Auteur { get; set; }
 
         public Double Prix { get; set; }
       

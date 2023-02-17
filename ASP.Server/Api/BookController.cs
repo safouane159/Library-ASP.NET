@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using ASP.Server.Database;
 using System.Reflection.Emit;
 using System.Xml.Linq;
+using ASP.Server.Service;
 
 namespace ASP.Server.Api
 {
@@ -18,10 +19,11 @@ namespace ASP.Server.Api
     public class BookController : ControllerBase
     {
         private readonly LibraryDbContext libraryDbContext;
-
-        public BookController(LibraryDbContext libraryDbContext)
+        private BookService bookService;
+        public BookController(LibraryDbContext libraryDbContext, BookService bookService)
         {
             this.libraryDbContext = libraryDbContext;
+            this.bookService = bookService;
         }
 
 
@@ -45,28 +47,27 @@ namespace ASP.Server.Api
         [HttpGet]
         public ActionResult<List<BookDTO>> GetBooksByGenre(int limit = 10, int offset = 0, string label = null)
         {
+
+
+
             if (string.IsNullOrWhiteSpace(label) ||  string.IsNullOrEmpty(label))
             {
                 return BadRequest("Genre label cannot be empty.");
                 throw new ArgumentException($"'{nameof(label)}' cannot be null or whitespace.", nameof(label));
                    
             }else {
-                var books = libraryDbContext.Books
-               .Include(b => b.Genres)
-               .Where(b => b.Genres.Any(g => g.Label == label))
-               .OrderBy(b => b.Id)
-               .Skip(offset)
-               .Take(limit)
-               .ToList();
+
+
+                List<Book> books = bookService.GetBooksByGenreService(limit, offset, label);
+
 
                 if (books == null || books.Count == 0)
                 {
                     return NotFound($"No book found of genre :'{label}' ! try another Genre. ");
                 }
 
-                var bookDTO = books.Select(b => b.ToBookDTO());
-
-                return Ok(bookDTO);
+                List<BookDTO> bookDTO = books.Select(b => b.ToBookDTO()).ToList();
+                return bookDTO;
             }
 
            
@@ -86,6 +87,43 @@ namespace ASP.Server.Api
             return Ok(book);
         }
 
+
+
+
+
+        [HttpGet]
+        public ActionResult<List<BookDTO>>  GetBooksByAuteur(String AuteurName)
+        {
+
+
+
+
+            if (string.IsNullOrWhiteSpace(AuteurName) || string.IsNullOrEmpty(AuteurName))
+            {
+                return BadRequest("Genre label cannot be empty.");
+                throw new ArgumentException($"'{nameof(AuteurName)}' cannot be null or whitespace.", nameof(AuteurName));
+
+            }
+            else
+            {
+
+
+                List<Book> books = bookService.GetBooksByAuteurService(AuteurName);
+
+
+                if (books == null || books.Count == 0)
+                {
+                    return NotFound($"No book found of genre :'{AuteurName}' ! try another Genre. ");
+                }
+
+                List<BookDTO> bookDTO = books.Select(b => b.ToBookDTO()).ToList();
+                return bookDTO;
+            }
+
+
+
+
+        }
 
 
     }
