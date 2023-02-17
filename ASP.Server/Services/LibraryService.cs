@@ -63,7 +63,137 @@ namespace ASP.Server.Service
                 _context.SaveChanges();
             }
         }
-        // Ajouter ici toutes vos fonctions qui peuvent être accéder a différent endroit de votre programme
+
+
+
+        public List<Book> GetBooksByGenreService(int limit = 10, int offset = 0, string label = null)
+        {
+
+
+
+
+
+            List<Book> books = _context.Books
+               .Include(b => b.Genres)
+               .Where(b => b.Genres.Any(g => g.Label == label))
+               .OrderBy(b => b.Id)
+               .Skip(offset)
+               .Take(limit)
+               .ToList();
+
+
+
+      
+
+
+
+            return books;
+
+            }
+
+
+
+        public List<Book> GetBooksByAuteurService(String auteurName,int limit = 10, int offset = 0)
+        {
+            var books = _context.Books
+                .Include(b => b.Genres)
+                .Where(b => b.Auteur.Name == auteurName)
+                .Skip(offset)
+               .Take(limit)
+                .ToList();
+
+            return books;
+        }
+
+
+
+
+        public int GetTotalBooks()
+        {
+            return _context.Books.Count();
+        }
+
+
+        public Dictionary<string, int> GetBooksCountByAuthor()
+        {
+            var bookCountsByAuthor = _context.Books
+          .Include(b => b.Auteur)
+          .ToList()
+          .GroupBy(b => b.Auteur.Name)
+          .ToDictionary(g => g.Key, g => g.Count());
+
+            return bookCountsByAuthor;
+        }
+
+
+        /* example usage : 
+         foreach (var kvp in bookCountsByAuthor)
+{
+    Console.WriteLine($"{kvp.Key}: {kvp.Value} books");
+}
+         */
+
+
+
+        public (Book book, int wordCount) GetBookWithMaxWordCount()
+        {
+            var book = _context.Books
+                .OrderByDescending(b => b.Contenu.Split(new[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Length)
+                .FirstOrDefault();
+
+            if (book == null)
+            {
+                return (null, 0);
+            }
+
+            int wordCount = book.Contenu.Split(new[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Length;
+
+            return (book, wordCount);
+        }
+
+        public (Book book, int wordCount) GetBookWithMinWordCount()
+        {
+            var book = _context.Books
+                .OrderByDescending(b => b.Contenu.Split(new[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Length)
+                .LastOrDefault();
+
+            if (book == null)
+            {
+                return (null, 0);
+            }
+
+            int wordCount = book.Contenu.Split(new[] { ' ', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Length;
+
+            return (book, wordCount);
+        }
+
+
+       
+
+
+        public int GetWordCountMedian()
+        {
+            var books = _context.Books.ToList();
+            var wordCounts = books.Select(b => b.Contenu.Split(' ').Count()).OrderBy(n => n);
+            var medianIndex = wordCounts.Count() / 2;
+            if (wordCounts.Count() % 2 == 0)
+            {
+                return (int)(wordCounts.ElementAt(medianIndex) + wordCounts.ElementAt(medianIndex - 1)) / 2;
+            }
+            else
+            {
+                return wordCounts.ElementAt(medianIndex);
+            }
+        }
+
+
+        public int GetWordCountMean()
+        {
+            var bookCount = _context.Books.Count();
+            var totalWordCount = _context.Books.Sum(b => b.Contenu.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Length);
+            return totalWordCount / (int)bookCount;
+        }
+
     }
 
 
@@ -119,6 +249,62 @@ namespace ASP.Server.Service
                 _context.SaveChanges();
             }
         }
-        // Ajouter ici toutes vos fonctions qui peuvent être accéder a différent endroit de votre programme
+
+
+
     }
+
+
+    public class AuteurService
+    {
+        private readonly LibraryDbContext _context;
+
+        public AuteurService(LibraryDbContext context)
+        {
+            _context = context;
+        }
+
+        public IEnumerable<Auteur> GetAllAuteurs()
+        {
+            return _context.Auteurs.ToList();
+        }
+
+        public Auteur GetAuteurById(int id)
+        {
+            return _context.Auteurs.Find(id);
+        }
+
+        public void AddAuteur(Auteur auteur)
+        {
+            _context.Auteurs.Add(auteur);
+            _context.SaveChanges();
+        }
+
+        public void UpdateAuteur(int id, Auteur updatedAuteur)
+        {
+            var auteur = _context.Auteurs.Find(id);
+            if (auteur != null)
+            {
+                auteur.Name = updatedAuteur.Name;
+                auteur.Age = updatedAuteur.Age;
+                _context.SaveChanges();
+            }
+        }
+
+        public void DeleteAuteur(int id)
+        {
+            var auteur = _context.Auteurs.Find(id);
+            if (auteur != null)
+            {
+                _context.Auteurs.Remove(auteur);
+                _context.SaveChanges();
+            }
+        }
+    }
+
+
+
+
+
+
 }

@@ -71,16 +71,16 @@ namespace ASP.Server.Controllers
 
          public String testa()
         {
-            Book b = new Book { Titre = "hello" };
 
-            bookService.AddBook(b);
-
-
-            List<Book> bListTest = bookService.GetBooks();
-            foreach (var book in bListTest)
-            {
-                Console.WriteLine($"- Book ID: {book.Id}, Titre: {book.Titre}, Prix: {book.Prix}");
-            }
+            var  mean = bookService.GetWordCountMean();
+            var median = bookService.GetWordCountMedian();
+            var ( book,min) = bookService.GetBookWithMinWordCount();
+            var (book2, max) = bookService.GetBookWithMaxWordCount();
+            Console.WriteLine($"{book.Titre}: {min} books");
+            Console.WriteLine($"{book2.Titre}: {max} books");
+            Console.WriteLine($" le mean : {mean} books");
+            Console.WriteLine($" le median : {median} books");
+         
             return "hi";
            // return libraryDbContext.Books.Single(a => a.Titre == "48 law of power").Titre;
         }
