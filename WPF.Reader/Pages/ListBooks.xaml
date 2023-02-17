@@ -24,6 +24,29 @@
             Command="{Binding DataContext.ItemSelectedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}" 
             CommandParameter="{Binding .}"
         -->
+
+        <!--<ItemsControl ItemsSource="{Binding Books}"/>-->
+
+        <Button />
+        <Button />
+        <ListBox Name="myListBox" HorizontalAlignment="Left" SelectionMode="Extended" 
+            Width="400" Height="550" Background="HoneyDew"
+            ItemsSource="{Binding Books}" IsSynchronizedWithCurrentItem="true">
+
+            <ListBox.ItemTemplate>
+
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock  Text="Title: " />
+                        <TextBlock Text="{Binding Titre}"  />
+                        <TextBlock Text="Auteur: " />
+                        <TextBlock Text="{Binding Auteur}" />
+                        <TextBlock Text="Prix " />
+                        <TextBlock Text="{Binding Prix}"  />
+                    </WrapPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </StackPanel>
 </Page>
 
