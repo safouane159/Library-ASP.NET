@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using WPF.Reader.Model;
 using WPF.Reader.Api;
 using System.Linq;
+using System.Windows;
+using System.Threading.Tasks;
 
 namespace WPF.Reader.Service
 {
@@ -76,29 +78,43 @@ namespace WPF.Reader.Service
         */
 
             // retrieves Books and Genres with API
-            GetAllBooks();
-            GetGenres();
+            //getAllBooks();
+            new Task(() => getAllBooks()).Start(); 
+            getGenres();
+            new Task(() => getGenres()).Start();
 
         }
-        public void GetAllBooks()
+        public async void getAllBooks()
         {
-            var dataApi = new BookApi().BookGetBooks();
-
-            foreach (BookDTO book in dataApi)
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                this.Books.Add(book);
-            }
+                this.Books.Clear();
+            });
+
+            var dataApi = await new BookApi().BookGetBooksWithHttpInfoAsync();
+            Application.Current.Dispatcher.Invoke(() => {
+                foreach (BookDTO book in dataApi.Data)
+                {
+                    this.Books.Add(book);
+                }
+            });
         }
 
-        public void GetGenres()
+        public async void getGenres()
         {
 
-            var dataApi = new GenreApi().GenreGetGenres();
-
-            foreach (Genre genre in dataApi)
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                this.Genres.Add(genre);
-            }
+                this.Genres.Clear();
+            });
+
+            var dataApi = await new GenreApi().GenreGetGenresWithHttpInfoAsync();
+            Application.Current.Dispatcher.Invoke(() => {
+                foreach (Genre genre in dataApi.Data)
+                {
+                    this.Genres.Add(genre);
+                }
+            });
         }
 
     }
