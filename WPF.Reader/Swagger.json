@@ -1,0 +1,226 @@
+{
+  "x-generator": "NSwag v13.18.2.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))",
+  "swagger": "2.0",
+  "info": {
+    "title": "My Title",
+    "version": "1.0.0"
+  },
+  "host": "localhost:5001",
+  "schemes": [
+    "https"
+  ],
+  "produces": [
+    "text/plain",
+    "application/json",
+    "text/json"
+  ],
+  "paths": {
+    "/api/Book/GetBooks": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "operationId": "Book_GetBooks",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "limit",
+            "in": "query",
+            "format": "int32",
+            "default": 10,
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "offset",
+            "in": "query",
+            "format": "int32",
+            "default": 0,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BookDTO"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Book/GetBooksByGenre": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "operationId": "Book_GetBooksByGenre",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "limit",
+            "in": "query",
+            "format": "int32",
+            "default": 10,
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "offset",
+            "in": "query",
+            "format": "int32",
+            "default": 0,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "label",
+            "in": "query",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BookDTO"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Book/GetBook/{id}": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "operationId": "Book_GetBook",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/Book"
+            }
+          }
+        }
+      }
+    },
+    "/api/Genre/GetGenres": {
+      "get": {
+        "tags": [
+          "Genre"
+        ],
+        "operationId": "Genre_GetGenres",
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Genre"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "BookDTO": {
+      "type": "object",
+      "required": [
+        "id",
+        "prix"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "titre": {
+          "type": "string"
+        },
+        "auteur": {
+          "type": "string"
+        },
+        "prix": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "genres": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Genre"
+          }
+        }
+      }
+    },
+    "Genre": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "label": {
+          "type": "string"
+        }
+      }
+    },
+    "Book": {
+      "type": "object",
+      "required": [
+        "id",
+        "prix"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "titre": {
+          "type": "string"
+        },
+        "contenu": {
+          "type": "string"
+        },
+        "auteur": {
+          "type": "string"
+        },
+        "prix": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "genres": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Genre"
+          }
+        }
+      }
+    }
+  }
+}
