@@ -20,6 +20,9 @@
           href="~/app-assets/css/themes/vertical-dark-menu-template/style.css">
     <link rel="stylesheet" type="text/css" href="~/app-assets/css/pages/dashboard.css">
     <!-- END: Page Level CSS-->
+    <!-- BEGIN: Select2 CSS-->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- END: Select2 CSS-->
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="~/css/custom.css">
     <!-- END: Custom CSS-->
@@ -384,7 +387,7 @@
                 <div class="collapsible-body">
                     <ul class="collapsible collapsible-sub" data-collapsible="accordion">
                         <li>
-                            <a asp-area="" asp-controller="Book" asp-action="Create">
+                            <a href="/Book/CreateUpdateView/">
                                 <i class="material-icons">radio_button_unchecked</i><span data-i18n="Modern">Create Book</span>
                             </a>
                         </li>
@@ -437,6 +440,16 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--END SweetAlert2-->
 
+    <!--SweetAlert2-->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!--END SweetAlert2-->
+
+
+    <script>// Basic Select2 select
+        $(".select2").select2({
+            dropdownAutoWidth: true,
+            width: '100%'
+        });</script>
 
 
 

@@ -6,7 +6,7 @@
 
 <section class="cars-list-wrapper section">
     <div class="card-panel">
-        <a href="/trips/create" class="btn waves-effect waves-light btn-small" type="button">
+        <a asp-controller="Book" asp-action="CreateUpdateView" class="btn waves-effect waves-light btn-small" type="button">
             <i class="material-icons left">add</i> Add book
         </a>
         <button class="btn waves-effect waves-light red btn-small" onclick="deleteBook(0)">
@@ -70,7 +70,7 @@
                                                class="mb-6 btn-floating waves-effect waves-light gradient-45deg-light-blue-cyan gradient-shadow">
                                                 <i class="material-icons">remove_red_eye</i>
                                             </a>
-                                            <a class="mb-6 btn-floating waves-effect waves-light gradient-45deg-amber-amber gradient-shadow">
+                                            <a asp-controller="Book" asp-action="CreateUpdateView" asp-route-id="@book.Id" class="mb-6 btn-floating waves-effect waves-light gradient-45deg-amber-amber gradient-shadow">
                                                 <i class="material-icons">edit</i>
                                             </a>
                                             <a onclick="deleteBook(@book.Id)"

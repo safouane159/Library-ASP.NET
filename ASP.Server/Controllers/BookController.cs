@@ -35,11 +35,12 @@ namespace ASP.Server.Controllers
         private BookService bookService;
         private GenreService genreService;
 
-        public BookController(BookService bookService, LibraryDbContext libraryDbContext)
+        public BookController(BookService bookService, LibraryDbContext libraryDbContext, GenreService genreService)
         {
             this.libraryDbContext = libraryDbContext;
 
             this.bookService = bookService;
+            this.genreService = genreService;
         }
 
         public  ActionResult<IEnumerable<Book>> List()
@@ -49,6 +50,22 @@ namespace ASP.Server.Controllers
 
           
             return View(ListBooks);
+        }
+
+        public ActionResult<Book> CreateUpdateView(int id = 0)
+        {
+            Book book = null;
+            List<Genre> genres = genreService.GetGenres();
+
+            if (id > 0)
+            {
+                book = bookService.GetBookById(id);
+            }
+
+            ViewBag.Genres = genres;
+
+
+            return View("Create", book);
         }
 
         public ActionResult<CreateBookModel> Create(CreateBookModel book)
