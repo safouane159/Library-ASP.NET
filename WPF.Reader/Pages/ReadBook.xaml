@@ -21,8 +21,18 @@
         <!-- On aimerais bien avoir le tire du livre en entête -->
 
         <!-- Ainsi que le contenu du livre ! -->
-        
-        <Button Grid.Row="2" Command="{Binding Path=GoBack, Source={StaticResource ResourceKey=navigator}}" CommandParameter="LIST" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="200" Content="Retourner au details" Margin="0,0,0,27"/>
+
+
+        <!-- Ainsi que le contenu du livre ! -->
+
+        <TextBox Margin="10,0,10,19" 
+                 x:Name="contenu"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     VerticalScrollBarVisibility="Visible"
+                     IsReadOnly="true"
+                     Text="{Binding CurrentBook.Contenu}" FontSize="15" FontWeight="Bold" Grid.Row="1" Padding="15 10"/>
+
     </Grid>
 </Page>
 

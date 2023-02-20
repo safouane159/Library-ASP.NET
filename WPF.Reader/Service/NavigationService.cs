@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using WPF.Reader;
@@ -51,6 +52,7 @@ namespace WPF.Reader.Service
         {
             Page p = Activator.CreateInstance(this.viewMapping[typeof(T)]) as Page;
             p.DataContext = Activator.CreateInstance(typeof(T), args);
+            //MessageBox.Show(p.DataContext.GetType().Name);
             Frame.Navigate(p);
         }
     }

@@ -26,7 +26,7 @@ namespace ASP.Server.Api
 
 
         [HttpGet]
-        public ActionResult<Genre> GetGenres()
+        public ActionResult<List<Genre>> GetGenres()
         {
             List<Genre> genres = libraryDbContext.Genres.ToList();
 

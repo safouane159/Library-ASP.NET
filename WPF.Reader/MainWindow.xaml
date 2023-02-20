@@ -13,7 +13,7 @@
     </Window.Resources>
     <DockPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right" >
-            <Button Command="{Binding Path=GoToHome}" Width="50" Content="Accueil"/>
+            <Button Command="{Binding Path=GoBack}" Width="50" Content="Retour"/>
         </StackPanel>
         <Label DockPanel.Dock="Top" Content="Library system" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="30px"/>
         <ContentPresenter  Content="{Binding Path=Frame}" x:Name="Navigation"/>
