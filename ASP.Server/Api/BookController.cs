@@ -33,6 +33,7 @@ namespace ASP.Server.Api
 
             var books = libraryDbContext.Books
             .Include(b => b.Genres)
+            .Include(c => c.Auteur)
             .OrderBy(b => b.Id)
             .Skip(offset)
             .Take(limit)
@@ -77,7 +78,7 @@ namespace ASP.Server.Api
         [HttpGet("{id}")]
         public ActionResult<Book> GetBook(int id)
         {
-            var book = libraryDbContext.Books.Include(b => b.Genres).FirstOrDefault(b => b.Id == id);
+            var book = libraryDbContext.Books.Include(b => b.Genres).Include(c => c.Auteur).FirstOrDefault(b => b.Id == id);
 
             if (book == null)
             {
