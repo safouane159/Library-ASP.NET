@@ -48,6 +48,11 @@ namespace ASP.Server.Controllers
             // récupérer les livres dans la base de donées pour qu'elle puisse être affiché
             List<Book> ListBooks = this.bookService.GetBooks();
 
+            foreach (var book in ListBooks)
+            {
+                Console.WriteLine($"auteur => {book.Auteur}");
+            }
+            
           
             return View(ListBooks);
         }
@@ -92,7 +97,7 @@ namespace ASP.Server.Controllers
         {
 
 
-
+            /*
 
             ICollection<Genre> genres = new List<Genre>();
 
@@ -102,7 +107,8 @@ namespace ASP.Server.Controllers
                 genres.Add(genreService.GetGenreById(cat));
             }
 
-            
+
+
 
 
             Book book = new Book() { Auteur = author, Contenu = content, Prix = price, Titre = title, Genres = genres };
@@ -117,7 +123,8 @@ namespace ASP.Server.Controllers
             }
 
 
-            return $"- Book title: {title}, Titre: {author}, Prix: {price}";
+            return $"- Book title: {title}, Titre: {author}, Prix: {price}";*/
+            return "";
         }
 
 

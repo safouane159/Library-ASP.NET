@@ -77,7 +77,10 @@ namespace ASP.Server.Api
         [HttpGet("{id}")]
         public ActionResult<Book> GetBook(int id)
         {
-            var book = libraryDbContext.Books.Include(b => b.Genres).FirstOrDefault(b => b.Id == id);
+            var book = libraryDbContext.Books
+                .Include(b => b.Genres)
+                .Include(b => b.Auteur)
+                .FirstOrDefault(b => b.Id == id);
 
             if (book == null)
             {

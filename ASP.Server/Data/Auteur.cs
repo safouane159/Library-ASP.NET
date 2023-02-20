@@ -20,6 +20,7 @@ namespace ASP.Server.Model
   
 
         public Double Age { get; set; }
+
         [JsonIgnore]
         public virtual ICollection<Book> Books { get; set; }
 
