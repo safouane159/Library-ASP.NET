@@ -27,9 +27,12 @@
 
         <!--<ItemsControl ItemsSource="{Binding Books}"/>-->
 
+        <TextBlock Grid.Row="0" Text="Filtrer par genre :"/>
+        <ComboBox Grid.Row="1" ItemsSource="{Binding Genres}" DisplayMemberPath="Label" SelectedValuePath="Label" 
+                  SelectedValue="{Binding SelectedGenre}" Margin="10"/>
         <ListBox Name="myListBox" HorizontalAlignment="Left" SelectionMode="Extended" 
             Width="700" Height="250" Background="HoneyDew"
-            ItemsSource="{Binding Books}" IsSynchronizedWithCurrentItem="true" d:ItemsSource="{d:SampleData ItemCount=5}" SelectedValue="{Binding SelectedBook}" >
+            ItemsSource="{Binding Books}" IsSynchronizedWithCurrentItem="true" d:ItemsSource="{d:SampleData ItemCount=5}" SelectedValue="{Binding SelectedBook}">
 
             <ListBox.ItemTemplate>
 
@@ -57,7 +60,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ListBox Name="mylistgenre" HorizontalAlignment="Left" SelectionMode="Extended" 
+        <!--<ListBox Name="mylistgenre" HorizontalAlignment="Left" SelectionMode="Extended" 
             Width="400" Height="250" Background="HoneyDew"
             ItemsSource="{Binding Genres}" IsSynchronizedWithCurrentItem="true">
 
@@ -71,7 +74,6 @@
                     </WrapPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-        </ListBox>
+        </ListBox>-->
     </StackPanel>
 </Page>
-

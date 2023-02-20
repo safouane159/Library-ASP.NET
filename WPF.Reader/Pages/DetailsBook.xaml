@@ -10,13 +10,37 @@
       d:DataContext="{d:DesignInstance Type=vm:InDesignDetailsBook, d:IsDesignTimeCreatable=True}"
       Title="DetailsBook">
 
-    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+    <Grid Background="LightGray">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <!-- il faut afficher les information du livre: Nom, Auteur, Prix, Genres-->
-        <!-- Mais pas le contenu ! -->
-        <!-- N'oublier pas le bouton pour aller lire le livre. La commande ReadCommand est faite pour ca ! -->
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="{Binding CurrentBook.Titre}" FontSize="30" FontWeight="Bold" VerticalAlignment="Center" Margin="10"/>
+        <TextBlock Text="Auteur: " FontSize="20" FontWeight="Bold" Grid.Row="1" VerticalAlignment="Center" Margin="10"/>
+        <TextBlock Text="{Binding CurrentBook.Auteur}" FontSize="20" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="10"/>
+        <TextBlock Text="Genres: " FontSize="20" FontWeight="Bold" Grid.Row="2" VerticalAlignment="Center" Margin="10"/>
+        <ItemsControl ItemsSource="{Binding CurrentBook.Genres}" Grid.Row="2" Grid.Column="1">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding CurrentBook.Genres.Label}" Margin="5"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <TextBlock Text="Prix: " FontSize="20" FontWeight="Bold" Grid.Row="3" VerticalAlignment="Center" Margin="10"/>
+        <TextBlock Text="{Binding CurrentBook.Prix, StringFormat='{}{0:C2}'}" FontSize="20" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="10"/>
+        <TextBlock Text="Contenu: " FontSize="20" FontWeight="Bold" Grid.Row="4" VerticalAlignment="Center" Margin="10"/>
+        <Button Content="Afficher le contenu" Grid.Row="4" Grid.Column="1" Margin="10" Command="{Binding ShowContentCommand}"/>
+
+        <TextBox Grid.Row="5" Margin="10" TextWrapping="Wrap" Text="{Binding CurrentBook}" IsReadOnly="True"/>
     </Grid>
 </Page>
