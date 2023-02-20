@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using WPF.Reader.Model;
 using WPF.Reader.Service;
@@ -35,7 +36,7 @@ namespace WPF.Reader.ViewModel
 
                 
                 // Ajoutez le code ici pour effectuer une action lorsqu'un livre est sélectionné
-                Ioc.Default.GetService<INavigationService>().Navigate<DetailsBook>(_selectedBook);
+                //Ioc.Default.GetService<INavigationService>().Navigate<DetailsBook>(_selectedBook);
 
                 //MessageBox.Show($"- Book ID: {_selectedBook.Id}, Titre: {_selectedBook.Titre}, Prix: {_selectedBook.Prix}, Genre: '{_selectedBook.Genres[0]}");
             }
@@ -61,8 +62,10 @@ namespace WPF.Reader.ViewModel
 
         public ListBook()
         {
-            ItemSelectedCommand = new RelayCommand(book => { /* the livre devrais etre dans la variable book */
-                Ioc.Default.GetService<INavigationService>().Navigate<DetailsBook>(book);
+            ItemSelectedCommand = new RelayCommand(book => {
+                /* the livre devrais etre dans la variable book */
+                //var selectedBook = (SelectionChangedEventArgs)book;
+                Ioc.Default.GetService<INavigationService>().Navigate<DetailsBook>(SelectedBook);
             });
         }
     }
