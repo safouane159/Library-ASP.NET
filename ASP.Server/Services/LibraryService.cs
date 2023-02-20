@@ -332,13 +332,14 @@ namespace ASP.Server.Service
 
         public void DeleteAuteur(int id)
         {
-            var auteur = _context.Auteurs.Find(id);
+            var auteur = _context.Auteurs.FirstOrDefault(a => a.Id == id);
             if (auteur != null)
             {
                 _context.Auteurs.Remove(auteur);
                 _context.SaveChanges();
             }
         }
+
     }
 
 
