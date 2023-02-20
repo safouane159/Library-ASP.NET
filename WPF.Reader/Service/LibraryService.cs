@@ -80,7 +80,7 @@ namespace WPF.Reader.Service
             // retrieves Books and Genres with API
             //getAllBooks();
             new Task(() => getAllBooks()).Start(); 
-            getGenres();
+            //getGenres();
             new Task(() => getGenres()).Start();
 
         }

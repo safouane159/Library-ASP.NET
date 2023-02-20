@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WPF.Reader": {
+      "commandName": "Project",
+      "hotReloadEnabled": false
+    }
+  }
+}

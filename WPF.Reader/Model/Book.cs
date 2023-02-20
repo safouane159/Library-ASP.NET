@@ -29,4 +29,5 @@ namespace WPF.Reader.Model
         public int Prix { get; set; }
         public virtual ICollection<Genre> Genres { get; set; }
     }*/
+
 }
