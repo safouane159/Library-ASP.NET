@@ -21,6 +21,8 @@ namespace WPF.Reader.Service
 
         public ObservableCollection<Genre> Genres { get; set; } = new ObservableCollection<Genre>();
 
+        public int ListBooksSize = 0;
+
 
         // C'est aussi ici que vous ajouterez les requête réseau pour récupérer les livres depuis le web service que vous avez fait
         // Vous pourrez alors ajouter les livres obtenu a la variable Books !
@@ -84,20 +86,22 @@ namespace WPF.Reader.Service
             new Task(() => getGenres()).Start();
 
         }
-        public async void getAllBooks()
+        public async void getAllBooks(int limit = 5, int offset = 0)
         {
+            var dataApi = await new BookApi().BookGetBooksWithHttpInfoAsync();
+            ListBooksSize = dataApi.Data.Count;
             Application.Current.Dispatcher.Invoke(() =>
             {
                 this.Books.Clear();
             });
 
-            var dataApi = await new BookApi().BookGetBooksWithHttpInfoAsync();
+            dataApi = await new BookApi().BookGetBooksWithHttpInfoAsync(limit, offset);
             Application.Current.Dispatcher.Invoke(() => {
                 foreach (BookDTO book in dataApi.Data)
                 {
                     this.Books.Add(book);
                 }
-            });
+            });  
         }
 
         public async void getGenres()
