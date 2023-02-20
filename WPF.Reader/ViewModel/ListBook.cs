@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -25,6 +26,14 @@ namespace WPF.Reader.ViewModel
         public ObservableCollection<Genre> Genres => Ioc.Default.GetRequiredService<LibraryService>().Genres;
 
         public int ListBookSize => Ioc.Default.GetRequiredService<LibraryService>().ListBooksSize;
+
+        public List<Genre> InitGenres
+        {
+            get
+            {
+                return new() { new Genre() { Id=-1, Label="--Select--" } };
+            }
+        }
 
         private BookDTO _selectedBook;
 
@@ -61,12 +70,14 @@ namespace WPF.Reader.ViewModel
             set
             {
                 _selectedGenre = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedGenre)));
 
+                Ioc.Default.GetRequiredService<LibraryService>().getBooksByGenre(_selectedGenre.Label);
                 //var genreIds = value.Genres.Select(genre => genre.Id).ToList();
 
 
                 // Ajoutez le code ici pour effectuer une action lorsqu'un livre est sélectionné
-                //Ioc.Default.GetService<INavigationService>().Navigate<ListBook>().book;
+                //Ioc.Default.GetService<INavigationService>().Navigate<ListBook>();
 
                 //MessageBox.Show($"- Book ID: {_selectedBook.Id}, Titre: {_selectedBook.Titre}, Prix: {_selectedBook.Prix}, Genre: '{_selectedBook.Genres[0]}");
             }
@@ -79,6 +90,9 @@ namespace WPF.Reader.ViewModel
                 //var selectedBook = (SelectionChangedEventArgs)book;
                 Ioc.Default.GetService<INavigationService>().Navigate<DetailsBook>(SelectedBook);
             });
+
+            // To display the first element of combobox "--Select--"
+            SelectedGenre = InitGenres.First();
 
             DisplayedBooks = new ObservableCollection<BookDTO>(Books.Take(_pageSize));
 
