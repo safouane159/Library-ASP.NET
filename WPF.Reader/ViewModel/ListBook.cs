@@ -53,13 +53,7 @@ namespace WPF.Reader.ViewModel
             {
                 _selectedBook = value;
 
-                //var genreIds = value.Genres.Select(genre => genre.Id).ToList();
-
                 
-                // Ajoutez le code ici pour effectuer une action lorsqu'un livre est sélectionné
-                //Ioc.Default.GetService<INavigationService>().Navigate<DetailsBook>(_selectedBook);
-
-                //MessageBox.Show($"- Book ID: {_selectedBook.Id}, Titre: {_selectedBook.Titre}, Prix: {_selectedBook.Prix}, Genre: '{_selectedBook.Genres[0]}");
             }
         }
 
@@ -73,14 +67,7 @@ namespace WPF.Reader.ViewModel
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedGenre)));
 
                 Ioc.Default.GetRequiredService<LibraryService>().getBooksByGenre(_selectedGenre.Label);
-                //var genreIds = value.Genres.Select(genre => genre.Id).ToList();
-
-
-                // Ajoutez le code ici pour effectuer une action lorsqu'un livre est sélectionné
-                //Ioc.Default.GetService<INavigationService>().Navigate<ListBook>();
-
-                //MessageBox.Show($"- Book ID: {_selectedBook.Id}, Titre: {_selectedBook.Titre}, Prix: {_selectedBook.Prix}, Genre: '{_selectedBook.Genres[0]}");
-            }
+                
         }
 
         public ListBook()

@@ -30,54 +30,7 @@ namespace WPF.Reader.Service
 
         public LibraryService()
         {
-            /* Genres = new ObservableCollection<Genre>() {
-
-              new Genre { Label = "Science fiction" },
-              new Genre { Label = "Classic" },
-              new Genre { Label = "Romance" },
-              new Genre { Label = "Thriller" },
-              new Genre { Label = "Action" },
-              new Genre { Label = "Adventure" },
-              new Genre { Label = "Dystopian" },
-              new Genre { Label = "Philosophy" },
-              new Genre { Label = "Psychology" },
-              new Genre { Label = "Literature" },
-              new Genre { Label = "Humor" },
-              new Genre { Label = "Mystery" },
-              new Genre { Label = "Coming-of-age" },
-              new Genre { Label = "Fiction" },
-              new Genre { Label = "Inspirational" }
-         };*/
-
-            /*
-        Books=new ObservableCollection<Book>() {
-            new Book { Titre = "48 law of power",
-                        Prix = 40,
-                        Auteur = "Robert Green",
-                        Contenu = " honoring the Medicis' greatness. Shortly after the discovery",
-                        Genres=new List<Genre> () { Genres[0] }
-                    },
-
-
-
-
-            new Book { Titre = "Pride and Prejudice",
-                        Prix = 20,
-                        Auteur = "Jane Austen",
-                        Contenu = "for so many centuries, that it is truly ",
-                        Genres=new List<Genre> () { Genres[0] }
-                        },
-
-
-
-
-            new Book { Titre = "1984",
-                        Prix = 15,
-                        Auteur = "George Orwell",
-                        Contenu = " Over several weeks, Ninon de Lenclos hinkers, and politicians",
-                        Genres=new List<Genre> () { Genres[0] }
-                        },
-        */
+            
 
             // retrieves Books and Genres with API
             //getAllBooks();

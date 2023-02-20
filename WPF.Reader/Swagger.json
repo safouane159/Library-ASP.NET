@@ -124,6 +124,34 @@
         }
       }
     },
+    "/api/Book/GetBooksByAuteur": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "operationId": "Book_GetBooksByAuteur",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "AuteurName",
+            "in": "query",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/BookDTO"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Genre/GetGenres": {
       "get": {
         "tags": [
@@ -161,17 +189,37 @@
           "type": "string"
         },
         "auteur": {
-          "type": "string"
+          "$ref": "#/definitions/Auteur"
         },
         "prix": {
-          "type": "integer",
-          "format": "int32"
+          "type": "number",
+          "format": "double"
         },
         "genres": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/Genre"
           }
+        }
+      }
+    },
+    "Auteur": {
+      "type": "object",
+      "required": [
+        "id",
+        "age"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "age": {
+          "type": "number",
+          "format": "double"
         }
       }
     },
@@ -208,11 +256,11 @@
           "type": "string"
         },
         "auteur": {
-          "type": "string"
+          "$ref": "#/definitions/Auteur"
         },
         "prix": {
-          "type": "integer",
-          "format": "int32"
+          "type": "number",
+          "format": "double"
         },
         "genres": {
           "type": "array",
