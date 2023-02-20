@@ -108,7 +108,7 @@ namespace ASP.Server.Controllers
 
 
         [HttpPost]
-        public String Create(int id,string title, int author, double price, int[] categories, string content)
+        public IActionResult Create(int id,string title, int author, double price, int[] categories, string content)
         {
 
             
@@ -154,7 +154,7 @@ namespace ASP.Server.Controllers
             }
 
 
-            return $"- Book title: {title}, Titre: {author}, Prix: {price}";
+            return RedirectToAction("List");
         }
 
 
