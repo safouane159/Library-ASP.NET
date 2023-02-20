@@ -41,6 +41,5 @@
         <TextBlock Text="Contenu: " FontSize="20" FontWeight="Bold" Grid.Row="4" VerticalAlignment="Center" Margin="10"/>
         <Button Content="Afficher le contenu" Grid.Row="4" Grid.Column="1" Margin="10" Command="{Binding ReadCommand}"/>
 
-        <TextBox Height="100" Width="2000" Grid.Row="5" Margin="10" Text="{Binding CurrentBook}" IsReadOnly="True"/>
     </Grid>
 </Page>
