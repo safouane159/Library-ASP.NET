@@ -289,7 +289,7 @@ namespace ASP.Server.Service
             _context = context;
         }
 
-        public IEnumerable<Auteur> GetAllAuteurs()
+        public List<Auteur> GetAllAuteurs()
         {
             return _context.Auteurs.ToList();
         }

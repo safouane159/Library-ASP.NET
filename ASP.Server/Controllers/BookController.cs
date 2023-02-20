@@ -34,19 +34,20 @@ namespace ASP.Server.Controllers
 
         private BookService bookService;
         private GenreService genreService;
+        private AuteurService auteurService;
 
-        public BookController(BookService bookService, GenreService genreService, LibraryDbContext libraryDbContext)
+        public BookController(BookService bookService, GenreService genreService, AuteurService auteurService, LibraryDbContext libraryDbContext)
         {
             this.libraryDbContext = libraryDbContext;
             this.genreService = genreService;
             this.bookService = bookService;
+            this.auteurService = auteurService;
         }
 
 
         public ActionResult<IEnumerable<Book>> List([FromQuery] int page = 0)
         {
             // récupérer les livres dans la base de donées pour qu'elle puisse être affiché
-            List<Book> ListBooks = this.bookService.GetBooks();
 
             var limit = 5;
             var offset = limit * page;
@@ -67,12 +68,15 @@ namespace ASP.Server.Controllers
             Book book = null;
             List<Genre> genres = genreService.GetGenres();
 
+            List<Auteur> auteurs = auteurService.GetAllAuteurs();
+
             if (id > 0)
             {
                 book = bookService.GetBookById(id);
             }
 
             ViewBag.Genres = genres;
+            ViewBag.Auteurs = auteurs;
 
 
             return View("Create", book);
@@ -98,11 +102,11 @@ namespace ASP.Server.Controllers
 
 
         [HttpPost]
-        public String Create(int id,string title, string author, double price, int[] categories, string content)
+        public String Create(int id,string title, int author, double price, int[] categories, string content)
         {
 
-
-            /*
+            
+            
 
             ICollection<Genre> genres = new List<Genre>();
 
@@ -113,10 +117,10 @@ namespace ASP.Server.Controllers
             }
 
 
+            Console.WriteLine($"ID => {author}");
 
 
-
-            Book book = new Book() { Auteur = author, Contenu = content, Prix = price, Titre = title, Genres = genres };
+            Book book = new Book() { Auteur = auteurService.GetAuteurById(author), Contenu = content, Prix = price, Titre = title, Genres = genres };
 
             if(id == 0)
             {
@@ -128,8 +132,7 @@ namespace ASP.Server.Controllers
             }
 
 
-            return $"- Book title: {title}, Titre: {author}, Prix: {price}";*/
-            return "";
+            return $"- Book title: {title}, Titre: {author}, Prix: {price}";
         }
 
 
