@@ -37,6 +37,7 @@ namespace ASP.Server.Service
 
             List<Book> books = _context.Books
            .Include(b => b.Genres)
+           .Include(c => c.Auteur)
            .OrderBy(b => b.Id)
            .Skip(offset)
            .Take(limit)
@@ -50,7 +51,7 @@ namespace ASP.Server.Service
 
         public Book GetBookById(int id)
         {
-            return _context.Books.Include(b => b.Genres).FirstOrDefault(b => b.Id == id);
+            return _context.Books.Include(b => b.Genres).Include(c => c.Auteur).FirstOrDefault(b => b.Id == id);
         }
 
         public void AddBook(Book book)
@@ -97,6 +98,7 @@ namespace ASP.Server.Service
 
             List<Book> books = _context.Books
                .Include(b => b.Genres)
+               .Include(c => c.Auteur)
                .Where(b => b.Genres.Any(g => g.Label == label))
                .OrderBy(b => b.Id)
                .Skip(offset)
@@ -119,6 +121,7 @@ namespace ASP.Server.Service
         {
             var books = _context.Books
                 .Include(b => b.Genres)
+                .Include(c => c.Auteur)
                 .Where(b => b.Auteur.Name == auteurName)
                 .Skip(offset)
                .Take(limit)

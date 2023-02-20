@@ -35,18 +35,18 @@ namespace ASP.Server.Controllers
         private BookService bookService;
         private GenreService genreService;
 
-        public BookController(BookService bookService, LibraryDbContext libraryDbContext, GenreService genreService)
+        public BookController(BookService bookService, GenreService genreService, LibraryDbContext libraryDbContext)
         {
             this.libraryDbContext = libraryDbContext;
-
-            this.bookService = bookService;
             this.genreService = genreService;
+            this.bookService = bookService;
         }
 
 
         public ActionResult<IEnumerable<Book>> List([FromQuery] int page = 0)
         {
             // récupérer les livres dans la base de donées pour qu'elle puisse être affiché
+            List<Book> ListBooks = this.bookService.GetBooks();
 
             var limit = 5;
             var offset = limit * page;
@@ -57,8 +57,8 @@ namespace ASP.Server.Controllers
             {
                 Console.WriteLine($"auteur => {book.Auteur}");
             }
-            
-          
+
+
             return View(ListBooks);
         }
 
@@ -136,7 +136,7 @@ namespace ASP.Server.Controllers
         public ActionResult<Book> View(int id = 0)
         {
 
-            
+
             // Il faut interoger la base pour récupérer tous les genres, pour que l'utilisateur puisse les slécétionné
             return View(bookService.GetBookById(id));
         }
@@ -169,14 +169,41 @@ namespace ASP.Server.Controllers
          public String testa()
         {
 
-            var  mean = bookService.GetWordCountMean();
+
+
+           Book b1 = bookService.GetBookById(1);
+
+            List<Genre> l= new List<Genre>();
+
+            Console.WriteLine($" book : {bookService.GetBookById(1).Titre} ");
+            Console.WriteLine($" added genre : {genreService.GetGenreById(3)} ");
+            Console.WriteLine($" added genre : {genreService.GetGenreById(6)} ");
+
+
+            l.Add(genreService.GetGenreById(7));
+            l.Add(genreService.GetGenreById(8));
+            b1.Genres.Clear();
+
+
+            foreach (var genre in l)
+            {
+                b1.Genres.Add(genre); // Add selected genres to the book's genre collection
+            }
+
+
+            bookService.UpdateBook(b1.Id, b1);
+
+
+
+
+            var mean = bookService.GetWordCountMean();
             var median = bookService.GetWordCountMedian();
             var ( book,min) = bookService.GetBookWithMinWordCount();
             var (book2, max) = bookService.GetBookWithMaxWordCount();
-            Console.WriteLine($"{book.Titre}: {min} books");
-            Console.WriteLine($"{book2.Titre}: {max} books");
-            Console.WriteLine($" le mean : {mean} books");
-            Console.WriteLine($" le median : {median} books");
+           // Console.WriteLine($"{book.Titre}: {min} books");
+           // Console.WriteLine($"{book2.Titre}: {max} books");
+           // Console.WriteLine($" le mean : {mean} books");
+           // Console.WriteLine($" le median : {median} books");
          
             return "hi";
            // return libraryDbContext.Books.Single(a => a.Titre == "48 law of power").Titre;

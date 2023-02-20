@@ -21,7 +21,6 @@ namespace ASP.Server.Database
 
             modelBuilder.Entity<Book>().ToTable("Book");
             modelBuilder.Entity<Genre>().ToTable("Genre");
-
             modelBuilder.Entity<Auteur>().ToTable("Auteur");
         }
     }
