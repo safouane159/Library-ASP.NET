@@ -128,5 +128,26 @@ namespace WPF.Reader.Service
             return book;
         }
 
+        public void getBooksByGenre(string genre)
+        {
+            var dataApi = new BookApi().BookGetBooksByGenre(label: genre);
+
+            if (dataApi != null && genre != "--Select--")
+            {
+                this.Books.Clear();
+
+                foreach (BookDTO book in dataApi)
+                {
+                    this.Books.Add(book);
+                }
+                ListBooksSize = this.Books.Count;
+            }
+            else
+            {
+                this.getAllBooks();
+            }
+
+        }
+
     }
 }
