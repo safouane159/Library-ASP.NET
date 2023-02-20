@@ -27,22 +27,47 @@
 
         <!--<ItemsControl ItemsSource="{Binding Books}"/>-->
 
-        <Button />
-        <Button />
         <ListBox Name="myListBox" HorizontalAlignment="Left" SelectionMode="Extended" 
-            Width="400" Height="550" Background="HoneyDew"
-            ItemsSource="{Binding Books}" IsSynchronizedWithCurrentItem="true">
+            Width="700" Height="250" Background="HoneyDew"
+            ItemsSource="{Binding Books}" IsSynchronizedWithCurrentItem="true" d:ItemsSource="{d:SampleData ItemCount=5}" SelectedValue="{Binding SelectedBook}" >
 
             <ListBox.ItemTemplate>
 
                 <DataTemplate>
                     <WrapPanel>
                         <TextBlock  Text="Title: " />
-                        <TextBlock Text="{Binding Titre}"  />
+                        <TextBlock Text="{Binding Titre}" FontWeight="Bold" FontSize="16" />
                         <TextBlock Text="Auteur: " />
-                        <TextBlock Text="{Binding Auteur}" />
+                        <TextBlock Text="{Binding Auteur}" FontStyle="Italic" FontSize="12"/>
+                        <TextBlock Text="Genre: " />
+                        <ItemsControl ItemsSource="{Binding Genres}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <WrapPanel>
+                                        <TextBlock Text="{Binding Label}" />
+                                    </WrapPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                         <TextBlock Text="Prix " />
-                        <TextBlock Text="{Binding Prix}"  />
+                        <TextBlock Text="{Binding Prix}" FontSize="12"  />
+
+                        <Button CommandParameter="{Binding .}" Command="{Binding DataContext.ItemSelectedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"/>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Name="mylistgenre" HorizontalAlignment="Left" SelectionMode="Extended" 
+            Width="400" Height="250" Background="HoneyDew"
+            ItemsSource="{Binding Genres}" IsSynchronizedWithCurrentItem="true">
+
+            <ListBox.ItemTemplate>
+
+                <DataTemplate>
+                    <WrapPanel>
+                        <TextBlock  Text="Genre: " />
+                        <TextBlock Text="{Binding Label}"  />
+
                     </WrapPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

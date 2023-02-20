@@ -15,7 +15,7 @@ using System.Windows.Input;
 namespace WPF.Reader.Model
 {
     // A vous de completer ce qu'est un Livre !!
-    public class Book
+    /*public class Book
     {
         public int Id { get; set; }
 
@@ -28,5 +28,5 @@ namespace WPF.Reader.Model
 
         public int Prix { get; set; }
         public virtual ICollection<Genre> Genres { get; set; }
-    }
+    }*/
 }
