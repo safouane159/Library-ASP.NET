@@ -61,7 +61,8 @@ namespace ASP.Server.Api
 
                 if (books == null || books.Count == 0)
                 {
-                    return NotFound($"No book found of genre :'{label}' ! try another Genre. ");
+                    //return NotFound($"No book found of genre :'{label}' ! try another Genre. ");
+                    return new List<BookDTO>();
                 }
 
                 var bookDTO = books.Select(b => b.ToBookDTO());
