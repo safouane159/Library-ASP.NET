@@ -96,6 +96,13 @@ namespace ASP.Server.Service
 
 
 
+        public int GetTotalBooksByGenre(int id)
+        {
+            var books = _context.Books.Where(b => b.Genres.Any(g => g.Id == id));
+            return books.Count();
+        }
+
+
         public List<Book> GetBooksByGenreService(int limit = 10, int offset = 0, string label = null)
         {
 

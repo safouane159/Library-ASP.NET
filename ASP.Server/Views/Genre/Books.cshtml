@@ -1,16 +1,16 @@
 ﻿@using ASP.Server.Model
-@model IEnumerable<Genre>
+@model IEnumerable<Book>
 @{
-    ViewData["Title"] = "Categories Page";
+    ViewData["Title"] = "Books Page";
 }
 
 <section class="cars-list-wrapper section">
     <div class="card-panel">
-        <a asp-controller="Genre" asp-action="CreateUpdateView" class="btn waves-effect waves-light btn-small" type="button">
-            <i class="material-icons left">add</i> Add category
+        <a asp-controller="Book" asp-action="CreateUpdateView" class="btn waves-effect waves-light btn-small" type="button">
+            <i class="material-icons left">add</i> Add book
         </a>
-        <button class="btn waves-effect waves-light red btn-small" onclick="deleteCategory(0)">
-            <i class="material-icons left">delete_forever</i> Delete Categories
+        <button class="btn waves-effect waves-light red btn-small" onclick="deleteBook(0)">
+            <i class="material-icons left">delete_forever</i> Delete books
         </button>
     </div>
 
@@ -20,7 +20,7 @@
             <div class="card-content">
                 <!-- datatable start -->
                 <div class="responsive-table">
-                    <table id="categories_datatable" class="table striped">
+                    <table id="books_datatable" class="table striped">
                         <thead>
                             <tr>
                                 <th>
@@ -29,32 +29,51 @@
                                         <span></span>
                                     </label>
                                 </th>
-                                <th>Label</th>
+                                <th>Title</th>
+                                <th>Content</th>
+                                <th>Author</th>
+                                <th>Price</th>
+                                <th>Categories</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            @foreach (var genre in Model)
+                            @foreach (var book in Model)
                             {
                                 <tr>
-                                    <td><label class="checkbox checkbox-single"><input type="checkbox" name="ids_categories[]" value="@genre.Id" class="checkable" /><span></span></label></td>
-                                    <td><div class="chip grey darken-1 white-text">@genre.Label</div></td>
-                                    
-                                   
+                                    <td><label class="checkbox checkbox-single"><input type="checkbox" name="ids_books[]" value="@book.Id" class="checkable" /><span></span></label></td>
+                                    <td><div class="chip grey darken-1 white-text">@book.Titre</div></td>
                                     <td>
-                                        <a asp-area="" asp-controller="Genre" asp-action="Books" asp-route-id="@genre.Id"
-                                           class="mb-6 btn-floating waves-effect waves-light gradient-45deg-green-teal gradient-shadow">
-                                            <i class="material-icons">book</i>
-                                        </a>
-                                        <a asp-area="" asp-controller="Genre" asp-action="View" asp-route-id="@genre.Id"
+                                        @( book.Contenu != null && book.Contenu.Length >= 70 ? book.Contenu.Substring(0, 70)+"..." : book.Contenu)
+                                    </td>
+                                    <td>
+                                        <div class="chip deep-purple darken-3 white-text z-depth-1">
+                                            @(book.Auteur != null ? book.Auteur.Name : "-")
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="chip blue darken-4 white-text z-depth-1">
+                                            @book.Prix $
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @foreach (Genre genre in book.Genres)
+                                        {
+                                            <div class="chip lime z-depth-1">
+                                                @genre.Label
+                                            </div>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a asp-area="" asp-controller="Book" asp-action="View" asp-route-id="@book.Id"
                                            class="mb-6 btn-floating waves-effect waves-light gradient-45deg-light-blue-cyan gradient-shadow">
                                             <i class="material-icons">remove_red_eye</i>
                                         </a>
-                                        <a asp-controller="Genre" asp-action="CreateUpdateView" asp-route-id="@genre.Id" class="mb-6 btn-floating waves-effect waves-light gradient-45deg-amber-amber gradient-shadow">
+                                        <a asp-controller="Book" asp-action="CreateUpdateView" asp-route-id="@book.Id" class="mb-6 btn-floating waves-effect waves-light gradient-45deg-amber-amber gradient-shadow">
                                             <i class="material-icons">edit</i>
                                         </a>
-                                        <a onclick="deleteCategory(@genre.Id)"
+                                        <a onclick="deleteBook(@book.Id)"
                                            class="mb-6 btn-floating waves-effect waves-light gradient-45deg-purple-deep-orange gradient-shadow">
                                             <i class="material-icons">delete_forever</i>
                                         </a>
@@ -65,6 +84,17 @@
 
                         </tbody>
                     </table>
+                    <div class="dataTables_paginate paging_simple_numbers" id="data-table-simple_paginate">
+                    <a class="paginate_button previous disabled" aria-controls="data-table-simple" data-dt-idx="0" tabindex="-1" id="data-table-simple_previous">Previous</a>
+                    <span>
+                        @for (int i = 0; i < ViewBag.Pages;i++)
+                            {
+                            <a href="/Genre/Books/@(ViewBag.Id)?page=@i" class="paginate_button @(ViewBag.Page == i ? "current":"")" aria-controls="data-table-simple" data-dt-idx="1" tabindex="0">@(i+1)</a>
+
+                         }
+                    </span>
+                    <a class="paginate_button next" aria-controls="data-table-simple" data-dt-idx="7" tabindex="0" id="data-table-simple_next">Next</a>
+                    </div>
                 </div>
                 <!-- datatable ends -->
             </div>
@@ -72,7 +102,9 @@
     </div>
 
 
-    <script>function deleteCategory(id) {
+    <script>
+
+        function deleteBook(id) {
             console.log(id);
 
 
@@ -85,7 +117,7 @@
             if (id > 0) {
                 arrayIds[0] = id;
             } else {
-                $('#categories_datatable input[class="checkable"]').each(function () {
+                $('#books_datatable input[class="checkable"]').each(function () {
                     var checked = jQuery(this).is(":checked");
                     if (checked) {
                         arrayIds[j] = jQuery(this).val();
@@ -100,7 +132,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Please choose the categories you want to delete!',
+                    text: 'Please choose the books you want to delete!',
                 })
             } else {
                 Swal.fire({
@@ -114,7 +146,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "/Genre/Delete",
+                            url: "/Book/Delete",
                             type: "DELETE",
                             cache: false,
                             data: {
@@ -125,7 +157,7 @@
                         }).done(function () {
                             Swal.fire(
                                 'Deleted!',
-                                'The category has been deleted.',
+                                'The book has been deleted.',
                                 'success'
                             ).then((result) => {
                                 location.reload();
@@ -137,7 +169,7 @@
                 })
             }
 
-
+           
 
         }
 
@@ -145,16 +177,21 @@
 
         function checkAllInputs() {
 
-            let checked = false;
+            let checked =  false;
 
             if (document.getElementById("checkAllInputs").checked) {
                 checked = true;
             }
 
-            $('#categories_datatable input[class="checkable"]').each(function () {
+            $('#books_datatable input[class="checkable"]').each(function () {
                 jQuery(this).prop("checked", checked);
             });
-        }</script>
+        }
+
+
+
+
+    </script>
 
 
 

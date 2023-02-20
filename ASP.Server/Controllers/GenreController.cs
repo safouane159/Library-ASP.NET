@@ -13,13 +13,16 @@ namespace ASP.Server.Controllers
     public class GenreController : Controller
     {
         private readonly LibraryDbContext libraryDbContext;
+        private BookService bookService;
         private GenreService genreService;
+        private AuteurService auteurService;
 
-
-        public GenreController(LibraryDbContext libraryDbContext, GenreService genreService)
+        public GenreController(LibraryDbContext libraryDbContext, BookService bookService, GenreService genreService, AuteurService auteurService)
         {
             this.libraryDbContext = libraryDbContext;
             this.genreService = genreService;
+            this.bookService = bookService;
+            this.auteurService = auteurService;
         }
 
         // A vous de faire comme BookController.List mais pour les genres !
@@ -119,6 +122,36 @@ namespace ASP.Server.Controllers
             return View(genreService.GetGenreById(id));
         }
 
+
+
+        public ActionResult<IEnumerable<Book>> Books(int id,[FromQuery] int page = 0)
+        {
+            // récupérer les livres dans la base de donées pour qu'elle puisse être affiché
+
+
+            var limit = 5;
+            var offset = limit * page;
+
+
+
+
+            List<Book> ListBooks = this.bookService.GetBooksByGenreService(limit: limit, offset: offset,label: genreService.GetGenreById(id).Label);
+
+            foreach (var book in ListBooks)
+            {
+                Console.WriteLine($"auteur => {book.Auteur}");
+            }
+
+            ViewBag.Limit = limit;
+            ViewBag.BooksTotal = bookService.GetTotalBooksByGenre(id);
+            ViewBag.Pages = (int)Math.Ceiling((double)ViewBag.BooksTotal / limit);
+            ViewBag.Page = page;
+            ViewBag.Id = id;
+
+
+
+            return View(ListBooks);
+        }
 
 
     }
