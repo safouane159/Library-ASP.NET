@@ -117,5 +117,12 @@ namespace WPF.Reader.Service
             });
         }
 
+        public Book getBook(int id)
+        {
+            if (id == 0) return null;
+            var book = new BookApi().BookGetBook(id);
+            return book;
+        }
+
     }
 }
