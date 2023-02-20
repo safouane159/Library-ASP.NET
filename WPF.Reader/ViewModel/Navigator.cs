@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WPF.Reader.Service;
@@ -20,7 +21,7 @@ namespace WPF.Reader.ViewModel
             var service = Ioc.Default.GetRequiredService<INavigationService>();
             if (service.Frame.CanGoBack)
             {
-                service.Frame.RemoveBackEntry();
+                //service.Frame.RemoveBackEntry();
                 var entry = service.Frame.RemoveBackEntry();
                 while (entry != null)
                 {

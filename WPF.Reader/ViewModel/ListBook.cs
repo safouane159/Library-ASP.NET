@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using WPF.Reader.Model;
@@ -21,20 +22,38 @@ namespace WPF.Reader.ViewModel
 
         private BookDTO _selectedBook;
 
+        private Genre _selectedGenre;
+
         public BookDTO SelectedBook
         {
             get { return _selectedBook; }
             set
             {
                 _selectedBook = value;
+
+                //var genreIds = value.Genres.Select(genre => genre.Id).ToList();
+
                 
-                /*foreach (Genre genre in Genres)
-                {
-                    _selectedBook.Genres.Add(genre);
-                }
-                */
                 // Ajoutez le code ici pour effectuer une action lorsqu'un livre est sélectionné
                 Ioc.Default.GetService<INavigationService>().Navigate<DetailsBook>(_selectedBook);
+
+                //MessageBox.Show($"- Book ID: {_selectedBook.Id}, Titre: {_selectedBook.Titre}, Prix: {_selectedBook.Prix}, Genre: '{_selectedBook.Genres[0]}");
+            }
+        }
+
+        public Genre selectedGenre
+        {
+            get { return _selectedGenre; }
+
+            set
+            {
+                _selectedGenre = value;
+
+                //var genreIds = value.Genres.Select(genre => genre.Id).ToList();
+
+
+                // Ajoutez le code ici pour effectuer une action lorsqu'un livre est sélectionné
+                //Ioc.Default.GetService<INavigationService>().Navigate<ListBook>().book;
 
                 //MessageBox.Show($"- Book ID: {_selectedBook.Id}, Titre: {_selectedBook.Titre}, Prix: {_selectedBook.Prix}, Genre: '{_selectedBook.Genres[0]}");
             }

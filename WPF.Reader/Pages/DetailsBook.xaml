@@ -32,7 +32,7 @@
         <ItemsControl ItemsSource="{Binding CurrentBook.Genres}" Grid.Row="2" Grid.Column="1">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding CurrentBook.Genres.Label}" Margin="5"/>
+                    <TextBlock Text="{Binding Label}" Margin="5"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

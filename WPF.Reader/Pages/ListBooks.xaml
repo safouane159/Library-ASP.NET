@@ -55,7 +55,7 @@
                         <TextBlock Text="Prix " />
                         <TextBlock Text="{Binding Prix}" FontSize="12"  />
 
-                        <Button CommandParameter="{Binding .}" Command="{Binding DataContext.ItemSelectedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"/>
+                        <Button Content="Btn" CommandParameter="{Binding .}" Command="{Binding DataContext.ItemSelectedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"/>
                     </WrapPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
