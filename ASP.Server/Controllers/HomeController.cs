@@ -33,6 +33,14 @@ namespace ASP.Server.Controllers
             ViewBag.TotalCategories = genreService.GetGenres().Count;
             ViewBag.TotalProfit = bookService.GetBooks().Sum(book => book.Prix);
 
+            ViewBag.BookMinWordCountName = bookService.GetBookWithMinWordCount().book.Titre;
+            ViewBag.BookMinWordCountId = bookService.GetBookWithMinWordCount().book.Id;
+            ViewBag.BookMinWordCountWC = bookService.GetBookWithMinWordCount().wordCount;
+
+            ViewBag.BookMaxWordCountName = bookService.GetBookWithMaxWordCount().book.Titre;
+            ViewBag.BookMaxWordCountId = bookService.GetBookWithMaxWordCount().book.Id;
+            ViewBag.BookMaxWordCountWC = bookService.GetBookWithMaxWordCount().wordCount;
+
 
 
             return View();

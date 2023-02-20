@@ -114,6 +114,7 @@ namespace ASP.Server.Controllers
         {
 
             ViewBag.BooksTotal = auteurService.GetTotalBooksByAuteur(id);
+
             // Il faut interoger la base pour récupérer tous les genres, pour que l'utilisateur puisse les slécétionné
             return View(auteurService.GetAuteurById(id));
         }
