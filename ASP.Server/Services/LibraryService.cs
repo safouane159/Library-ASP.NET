@@ -31,20 +31,20 @@ namespace ASP.Server.Service
             return _context.Books.Include(b => b.Genres).ToList();
         }
 
-        public List<BookDTO> GetBooks(int limit = 10, int offset = 0)
+        public List<Book> GetBooks(int limit = 10, int offset = 0)
         {
 
 
-            var books = _context.Books
+            List<Book> books = _context.Books
            .Include(b => b.Genres)
            .OrderBy(b => b.Id)
            .Skip(offset)
            .Take(limit)
            .ToList();
 
-            List<BookDTO> bookDTO = books.Select(b => b.ToBookDTO()).ToList();
+            
 
-            return bookDTO;
+            return books;
         }
 
 

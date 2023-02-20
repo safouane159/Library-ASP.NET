@@ -43,10 +43,15 @@ namespace ASP.Server.Controllers
             this.genreService = genreService;
         }
 
-        public  ActionResult<IEnumerable<Book>> List()
+
+        public ActionResult<IEnumerable<Book>> List([FromQuery] int page = 0)
         {
             // récupérer les livres dans la base de donées pour qu'elle puisse être affiché
-            List<Book> ListBooks = this.bookService.GetBooks();
+
+            var limit = 5;
+            var offset = limit * page;
+
+            List<Book> ListBooks = this.bookService.GetBooks(limit: limit, offset: offset);
 
             foreach (var book in ListBooks)
             {

@@ -25,7 +25,7 @@
                             <tr>
                                 <th>
                                     <label class="checkbox checkbox-single">
-                                        <input type="checkbox" id="checkAllInputs" value="" class="group-checkable" onclick="checkAllInputs()"/>
+                                        <input type="checkbox" id="checkAllInputs" value="" class="group-checkable" onclick="checkAllInputs()" />
                                         <span></span>
                                     </label>
                                 </th>
@@ -40,50 +40,51 @@
                         <tbody>
 
                             @foreach (var book in Model)
-                             {
-                                    <tr>
-                                        <td><label class="checkbox checkbox-single"><input type="checkbox" name="ids_books[]" value="@book.Id" class="checkable" /><span></span></label></td>
-                                        <td><div class="chip grey darken-1 white-text">@book.Titre</div></td>
-                                        <td>
-                                            @( book.Contenu != null && book.Contenu.Length >= 70 ? book.Contenu.Substring(0, 70)+"..." : book.Contenu)
-                                        </td>
-                                        <td>
-                                            <div class="chip deep-purple darken-3 white-text z-depth-1">
-                                                @(book.Auteur != null ? book.Auteur.Name : "-")
+                            {
+                                <tr>
+                                    <td><label class="checkbox checkbox-single"><input type="checkbox" name="ids_books[]" value="@book.Id" class="checkable" /><span></span></label></td>
+                                    <td><div class="chip grey darken-1 white-text">@book.Titre</div></td>
+                                    <td>
+                                        @( book.Contenu != null && book.Contenu.Length >= 70 ? book.Contenu.Substring(0, 70)+"..." : book.Contenu)
+                                    </td>
+                                    <td>
+                                        <div class="chip deep-purple darken-3 white-text z-depth-1">
+                                            @(book.Auteur != null ? book.Auteur.Name : "-")
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="chip blue darken-4 white-text z-depth-1">
+                                            @book.Prix $
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @foreach (Genre genre in book.Genres)
+                                        {
+                                            <div class="chip lime z-depth-1">
+                                                @genre.Label
                                             </div>
-                                        </td>
-                                        <td>
-                                            <div class="chip blue darken-4 white-text z-depth-1">
-                                                @book.Prix $
-                                            </div>
-                                        </td>
-                                        <td>
-                                            @foreach (Genre genre in book.Genres)
-                                            {
-                                                <div class="chip lime z-depth-1">
-                                                    @genre.Label
-                                                </div>
-                                            }
-                                        </td>
-                                        <td>
-                                            <a asp-area="" asp-controller="Book" asp-action="View" asp-route-id="@book.Id"
-                                               class="mb-6 btn-floating waves-effect waves-light gradient-45deg-light-blue-cyan gradient-shadow">
-                                                <i class="material-icons">remove_red_eye</i>
-                                            </a>
-                                            <a asp-controller="Book" asp-action="CreateUpdateView" asp-route-id="@book.Id" class="mb-6 btn-floating waves-effect waves-light gradient-45deg-amber-amber gradient-shadow">
-                                                <i class="material-icons">edit</i>
-                                            </a>
-                                            <a onclick="deleteBook(@book.Id)"
-                                               class="mb-6 btn-floating waves-effect waves-light gradient-45deg-purple-deep-orange gradient-shadow">
-                                                <i class="material-icons">delete_forever</i>
-                                            </a>
-                                        </td>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a asp-area="" asp-controller="Book" asp-action="View" asp-route-id="@book.Id"
+                                           class="mb-6 btn-floating waves-effect waves-light gradient-45deg-light-blue-cyan gradient-shadow">
+                                            <i class="material-icons">remove_red_eye</i>
+                                        </a>
+                                        <a asp-controller="Book" asp-action="CreateUpdateView" asp-route-id="@book.Id" class="mb-6 btn-floating waves-effect waves-light gradient-45deg-amber-amber gradient-shadow">
+                                            <i class="material-icons">edit</i>
+                                        </a>
+                                        <a onclick="deleteBook(@book.Id)"
+                                           class="mb-6 btn-floating waves-effect waves-light gradient-45deg-purple-deep-orange gradient-shadow">
+                                            <i class="material-icons">delete_forever</i>
+                                        </a>
+                                    </td>
 
-                                    </tr>
+                                </tr>
                             }
 
                         </tbody>
                     </table>
+                    <div class="dataTables_paginate paging_simple_numbers" id="data-table-simple_paginate"><a class="paginate_button previous disabled" aria-controls="data-table-simple" data-dt-idx="0" tabindex="-1" id="data-table-simple_previous">Previous</a><span><a class="paginate_button current" aria-controls="data-table-simple" data-dt-idx="1" tabindex="0">1</a><a class="paginate_button " aria-controls="data-table-simple" data-dt-idx="2" tabindex="0">2</a><a class="paginate_button " aria-controls="data-table-simple" data-dt-idx="3" tabindex="0">3</a><a class="paginate_button " aria-controls="data-table-simple" data-dt-idx="4" tabindex="0">4</a><a class="paginate_button " aria-controls="data-table-simple" data-dt-idx="5" tabindex="0">5</a><a class="paginate_button " aria-controls="data-table-simple" data-dt-idx="6" tabindex="0">6</a></span><a class="paginate_button next" aria-controls="data-table-simple" data-dt-idx="7" tabindex="0" id="data-table-simple_next">Next</a></div>
                 </div>
                 <!-- datatable ends -->
             </div>
