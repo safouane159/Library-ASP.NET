@@ -68,7 +68,7 @@ namespace ASP.Server.Controllers
             return View("Create", book);
         }
 
-        public ActionResult<CreateBookModel> Create(CreateBookModel book)
+        /*public ActionResult<CreateBookModel> Create(CreateBookModel book)
         {
             // Le IsValid est True uniquement si tous les champs de CreateBookModel marqués Required sont remplis
             if (ModelState.IsValid)
@@ -83,8 +83,42 @@ namespace ASP.Server.Controllers
 
             // Il faut interoger la base pour récupérer tous les genres, pour que l'utilisateur puisse les slécétionné
             return View(new CreateBookModel() { AllGenres = null } );
-        }
+        }*/
 
+
+
+        [HttpPost]
+        public String Create(int id,string title, string author, double price, int[] categories, string content)
+        {
+
+
+
+
+            ICollection<Genre> genres = new List<Genre>();
+
+            foreach (var cat in categories)
+            {
+                Console.WriteLine($"- CAT ID: {cat}");
+                genres.Add(genreService.GetGenreById(cat));
+            }
+
+            
+
+
+            Book book = new Book() { Auteur = author, Contenu = content, Prix = price, Titre = title, Genres = genres };
+
+            if(id == 0)
+            {
+                bookService.AddBook(book);
+            }
+            else
+            {
+                bookService.UpdateBook(id, book);
+            }
+
+
+            return $"- Book title: {title}, Titre: {author}, Prix: {price}";
+        }
 
 
         public ActionResult<Book> View(int id = 0)
