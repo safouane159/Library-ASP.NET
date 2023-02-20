@@ -62,6 +62,7 @@ namespace ASP.Server.Controllers
             ViewBag.Limit = limit;
             ViewBag.BooksTotal = bookService.GetTotalBooks();
             ViewBag.Pages = (int)Math.Ceiling((double)ViewBag.BooksTotal / limit);
+            ViewBag.Page = page;
 
 
 
