@@ -1,6 +1,8 @@
-﻿using System.ComponentModel;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using System.ComponentModel;
 using System.Windows.Input;
 using WPF.Reader.Model;
+using WPF.Reader.Service;
 
 namespace WPF.Reader.ViewModel
 {
@@ -15,6 +17,10 @@ namespace WPF.Reader.ViewModel
         public DetailsBook(BookDTO book)
         {
             CurrentBook = book;
+            ReadCommand = new RelayCommand(x => {
+                var curr = Ioc.Default.GetRequiredService<LibraryService>().getBook(CurrentBook.Id);
+                Ioc.Default.GetRequiredService<INavigationService>().Navigate<ReadBook>(curr);
+            });
         }
     }
 

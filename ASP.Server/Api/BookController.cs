@@ -81,7 +81,8 @@ namespace ASP.Server.Api
 
             if (book == null)
             {
-                return NotFound();
+                //return NotFound();
+                return new Book();
             }
 
             return Ok(book);
