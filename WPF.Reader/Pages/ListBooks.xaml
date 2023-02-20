@@ -28,8 +28,24 @@
         <!--<ItemsControl ItemsSource="{Binding Books}"/>-->
 
         <TextBlock Grid.Row="0" Text="Filtrer par genre :"/>
-        <ComboBox Grid.Row="1" ItemsSource="{Binding Genres}" DisplayMemberPath="Label" SelectedValuePath="Label" 
-                  SelectedValue="{Binding SelectedGenre}" Margin="10"/>
+        <ComboBox Name="genreCombobox" Grid.Row="1" SelectedValuePath="Label"  Margin="10"
+                  SelectedItem="{Binding SelectedGenre}">
+            <ComboBox.Resources>
+                <CollectionViewSource Source="{Binding InitGenres}" x:Key="init_genres" />
+                <CollectionViewSource Source="{Binding Genres}" x:Key="genres" />
+            </ComboBox.Resources>
+            <ComboBox.ItemsSource>
+                <CompositeCollection>
+                    <CollectionContainer Collection="{Binding Source={StaticResource init_genres}}" />
+                    <CollectionContainer Collection="{Binding Source={StaticResource genres}}" />
+                </CompositeCollection>
+            </ComboBox.ItemsSource>
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Label}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
         <ListBox Name="myListBox" HorizontalAlignment="Left" SelectionMode="Extended" 
             Width="700" Height="250" Background="HoneyDew" 
             ItemsSource="{Binding Books}" IsSynchronizedWithCurrentItem="true" d:ItemsSource="{d:SampleData ItemCount=5}" SelectedValue="{Binding SelectedBook}">
@@ -78,5 +94,11 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>-->
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button Content="Prev" Command="{Binding PrevPageCommand}" Margin="5" />
+            <Button Content="Next" Command="{Binding NextPageCommand}" Margin="5" />
+        </StackPanel>
     </StackPanel>
+
 </Page>
