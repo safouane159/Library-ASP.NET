@@ -72,6 +72,13 @@ namespace ASP.Server.Service
                 existingBook.Prix = book.Prix;
                 existingBook.Genres = book.Genres;
 
+               /* existingBook.Genres.Clear();
+               
+                foreach (var genre in book.Genres)
+                {
+                    existingBook.Genres.Add(genre); // Add selected genres to the book's genre collection
+                }*/
+
                 _context.SaveChanges();
             }
         }

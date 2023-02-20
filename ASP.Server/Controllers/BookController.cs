@@ -59,6 +59,11 @@ namespace ASP.Server.Controllers
                 Console.WriteLine($"auteur => {book.Auteur}");
             }
 
+            ViewBag.Limit = limit;
+            ViewBag.BooksTotal = bookService.GetTotalBooks();
+            ViewBag.Pages = (int)Math.Ceiling((double)ViewBag.BooksTotal / limit);
+
+
 
             return View(ListBooks);
         }
@@ -120,14 +125,30 @@ namespace ASP.Server.Controllers
             Console.WriteLine($"ID => {author}");
 
 
-            Book book = new Book() { Auteur = auteurService.GetAuteurById(author), Contenu = content, Prix = price, Titre = title, Genres = genres };
 
             if(id == 0)
             {
+                Book book = new Book() { Auteur = auteurService.GetAuteurById(author), Contenu = content, Prix = price, Titre = title, Genres = genres };
+
                 bookService.AddBook(book);
             }
             else
             {
+                Book book = bookService.GetBookById(id);
+
+                book.Auteur = auteurService.GetAuteurById(author);
+                book.Contenu = content;
+                book.Prix = price;
+                book.Titre = title;
+                book.Genres.Clear();
+
+
+                foreach(Genre genre in genres)
+                {
+                    book.Genres.Add(genre);
+                }
+                
+
                 bookService.UpdateBook(id, book);
             }
 
