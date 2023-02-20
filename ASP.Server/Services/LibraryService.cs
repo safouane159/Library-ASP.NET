@@ -102,6 +102,12 @@ namespace ASP.Server.Service
             return books.Count();
         }
 
+        public int GetTotalBooksByAuteur(int id)
+        {
+            return _context.Books.Where(b => b.Auteur.Id == id).Count();
+        }
+
+
 
         public List<Book> GetBooksByGenreService(int limit = 10, int offset = 0, string label = null)
         {
@@ -332,13 +338,24 @@ namespace ASP.Server.Service
 
         public void DeleteAuteur(int id)
         {
+
+            Console.WriteLine($"In DeleteAuteur function" );
+
             var auteur = _context.Auteurs.FirstOrDefault(a => a.Id == id);
             if (auteur != null)
+
+                Console.WriteLine($"Author found => {auteur.Name}");
             {
                 _context.Auteurs.Remove(auteur);
                 _context.SaveChanges();
             }
         }
+
+        public int GetTotalBooksByAuteur(int id)
+        {
+            return _context.Books.Count(b => b.Auteur.Id == id);
+        }
+
 
     }
 

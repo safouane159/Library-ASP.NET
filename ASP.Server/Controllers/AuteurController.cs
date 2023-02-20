@@ -49,13 +49,14 @@ namespace ASP.Server.Controllers
             {
                 foreach (var id in ids)
                 {
+                    Console.WriteLine($"ID --_>{id}");
                     auteurService.DeleteAuteur(id);
                 }
 
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
+                Console.WriteLine($"Author Exception: {ex.Message}");
             }
 
 
@@ -64,6 +65,86 @@ namespace ASP.Server.Controllers
         }
 
 
+        public ActionResult<Auteur> CreateUpdateView(int id = 0)
+        {
+            Auteur auteur = null;
+
+
+
+            if (id > 0)
+            {
+                auteur = auteurService.GetAuteurById(id);
+            }
+
+
+
+
+            return View("Create", auteur);
+        }
+
+
+        [HttpPost]
+        public IActionResult Create(int id, string name,int age)
+        {
+
+            if (id == 0)
+            {
+                Auteur auteur = new Auteur() { Name = name, Age = age };
+
+                auteurService.AddAuteur(auteur);
+            }
+            else
+            {
+                Auteur auteur = auteurService.GetAuteurById(id);
+
+                auteur.Name = name;
+                auteur.Age = age;
+
+
+
+                auteurService.UpdateAuteur(id, auteur);
+            }
+
+
+            return RedirectToAction("List");
+        }
+
+
+        public ActionResult<Auteur> View(int id = 0)
+        {
+
+            ViewBag.BooksTotal = auteurService.GetTotalBooksByAuteur(id);
+            // Il faut interoger la base pour récupérer tous les genres, pour que l'utilisateur puisse les slécétionné
+            return View(auteurService.GetAuteurById(id));
+        }
+
+
+
+        public ActionResult<IEnumerable<Auteur>> Books(int id, [FromQuery] int page = 0)
+        {
+            // récupérer les livres dans la base de donées pour qu'elle puisse être affiché
+
+
+            var limit = 5;
+            var offset = limit * page;
+
+
+
+
+            List<Book> ListBooks = this.bookService.GetBooksByAuteurService(limit: limit, offset: offset, auteurName: auteurService.GetAuteurById(id).Name);
+
+           
+
+            ViewBag.Limit = limit;
+            ViewBag.BooksTotal = bookService.GetTotalBooksByAuteur(id);
+            ViewBag.Pages = (int)Math.Ceiling((double)ViewBag.BooksTotal / limit);
+            ViewBag.Page = page;
+            ViewBag.Id = id;
+
+
+
+            return View(ListBooks);
+        }
 
     }
 }
