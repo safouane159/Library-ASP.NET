@@ -118,6 +118,7 @@ namespace ASP.Server.Controllers
         public ActionResult<Genre> View(int id = 0)
         {
 
+            ViewBag.BooksTotal = bookService.GetTotalBooksByGenre(id);
             // Il faut interoger la base pour récupérer tous les genres, pour que l'utilisateur puisse les slécétionné
             return View(genreService.GetGenreById(id));
         }
