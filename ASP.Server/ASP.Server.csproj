@@ -18,6 +18,7 @@
     <None Remove="Service\**" />
     <None Remove="Views\ListeBooks\**" />
     <None Remove="LINQPad" />
+    <None Remove="Views\Auteur\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,4 +40,7 @@
     <PackageReference Include="LINQPad" Version="5.46.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Auteur\" />
+  </ItemGroup>
 </Project>

@@ -33,24 +33,62 @@ namespace ASP.Server.Controllers
         private readonly LibraryDbContext libraryDbContext;
 
         private BookService bookService;
+        private GenreService genreService;
+        private AuteurService auteurService;
 
-        public BookController(BookService bookService, LibraryDbContext libraryDbContext)
+        public BookController(BookService bookService, GenreService genreService, AuteurService auteurService, LibraryDbContext libraryDbContext)
         {
             this.libraryDbContext = libraryDbContext;
-
+            this.genreService = genreService;
             this.bookService = bookService;
+            this.auteurService = auteurService;
         }
 
-        public  ActionResult<IEnumerable<Book>> List()
+
+        public ActionResult<IEnumerable<Book>> List([FromQuery] int page = 0)
         {
             // récupérer les livres dans la base de donées pour qu'elle puisse être affiché
-            List<Book> ListBooks = null;
 
-          
+            var limit = 5;
+            var offset = limit * page;
+
+            List<Book> ListBooks = this.bookService.GetBooks(limit: limit, offset: offset);
+
+            foreach (var book in ListBooks)
+            {
+                Console.WriteLine($"auteur => {book.Auteur}");
+            }
+
+            ViewBag.Limit = limit;
+            ViewBag.BooksTotal = bookService.GetTotalBooks();
+            ViewBag.Pages = (int)Math.Ceiling((double)ViewBag.BooksTotal / limit);
+            ViewBag.Page = page;
+
+
+
             return View(ListBooks);
         }
 
-        public ActionResult<CreateBookModel> Create(CreateBookModel book)
+        public ActionResult<Book> CreateUpdateView(int id = 0)
+        {
+            Book book = null;
+            List<Genre> genres = genreService.GetGenres();
+
+            List<Auteur> auteurs = auteurService.GetAllAuteurs();
+
+            if (id > 0)
+            {
+                book = bookService.GetBookById(id);
+            }
+
+            ViewBag.Genres = genres;
+            ViewBag.Auteurs = auteurs;
+
+
+            return View("Create", book);
+        }
+
+        /*public ActionResult<CreateBookModel> Create(CreateBookModel book)
         {
             // Le IsValid est True uniquement si tous les champs de CreateBookModel marqués Required sont remplis
             if (ModelState.IsValid)
@@ -65,22 +103,133 @@ namespace ASP.Server.Controllers
 
             // Il faut interoger la base pour récupérer tous les genres, pour que l'utilisateur puisse les slécétionné
             return View(new CreateBookModel() { AllGenres = null } );
+        }*/
+
+
+
+        [HttpPost]
+        public IActionResult Create(int id,string title, int author, double price, int[] categories, string content)
+        {
+
+            
+            
+
+            ICollection<Genre> genres = new List<Genre>();
+
+            foreach (var cat in categories)
+            {
+                Console.WriteLine($"- CAT ID: {cat}");
+                genres.Add(genreService.GetGenreById(cat));
+            }
+
+
+            Console.WriteLine($"ID => {author}");
+
+
+
+            if(id == 0)
+            {
+                Book book = new Book() { Auteur = auteurService.GetAuteurById(author), Contenu = content, Prix = price, Titre = title, Genres = genres };
+
+                bookService.AddBook(book);
+            }
+            else
+            {
+                Book book = bookService.GetBookById(id);
+
+                book.Auteur = auteurService.GetAuteurById(author);
+                book.Contenu = content;
+                book.Prix = price;
+                book.Titre = title;
+                book.Genres.Clear();
+
+
+                foreach(Genre genre in genres)
+                {
+                    book.Genres.Add(genre);
+                }
+                
+
+                bookService.UpdateBook(id, book);
+            }
+
+
+            return RedirectToAction("List");
+        }
+
+
+        public ActionResult<Book> View(int id = 0)
+        {
+
+
+            // Il faut interoger la base pour récupérer tous les genres, pour que l'utilisateur puisse les slécétionné
+            return View(bookService.GetBookById(id));
+        }
+
+
+
+        [HttpDelete]
+        public bool Delete([FromForm] int[] ids)
+        {
+
+            try
+            {
+                foreach (var id in ids)
+                {
+                    bookService.DeleteBook(id);
+                }
+
+             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+            }
+
+
+            return true;
+
         }
 
 
          public String testa()
         {
-            Book b = new Book { Titre = "hello" };
-
-            bookService.AddBook(b);
 
 
 
-            List<Book> bListTest = bookService.GetBooks();
-            foreach (var book in bListTest)
+           Book b1 = bookService.GetBookById(1);
+
+            List<Genre> l= new List<Genre>();
+
+            Console.WriteLine($" book : {bookService.GetBookById(1).Titre} ");
+            Console.WriteLine($" added genre : {genreService.GetGenreById(3)} ");
+            Console.WriteLine($" added genre : {genreService.GetGenreById(6)} ");
+
+
+            l.Add(genreService.GetGenreById(7));
+            l.Add(genreService.GetGenreById(8));
+            b1.Genres.Clear();
+
+
+            foreach (var genre in l)
             {
-                Console.WriteLine($"- Book ID: {book.Id}, Titre: {book.Titre}, Prix: {book.Prix}");
+                b1.Genres.Add(genre); // Add selected genres to the book's genre collection
             }
+
+
+            bookService.UpdateBook(b1.Id, b1);
+
+
+
+
+            var mean = bookService.GetWordCountMean();
+            var median = bookService.GetWordCountMedian();
+            var ( book,min) = bookService.GetBookWithMinWordCount();
+            var (book2, max) = bookService.GetBookWithMaxWordCount();
+           // Console.WriteLine($"{book.Titre}: {min} books");
+           // Console.WriteLine($"{book2.Titre}: {max} books");
+           // Console.WriteLine($" le mean : {mean} books");
+           // Console.WriteLine($" le median : {median} books");
+         
             return "hi";
            // return libraryDbContext.Books.Single(a => a.Titre == "48 law of power").Titre;
         }

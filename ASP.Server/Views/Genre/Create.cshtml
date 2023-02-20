@@ -1,0 +1,41 @@
+﻿@using ASP.Server.Model
+@model Genre
+@{
+    ViewData["Title"] = (Model == null ? "Add a category" : "Update category");
+}
+
+
+<section class="cars-list-wrapper section">
+
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <div class="card card card-default scrollspy">
+                <div class="card-content">
+                    <h4>@(Model == null ? "Add a category" : "Update category")</h4>
+                    <form method="post" action="@Url.Action("Create", "Genre")">
+                        <input id="id" name="id" type="hidden" value="@(Model == null ? 0 : Model.Id)">
+                        <div class="row">
+                            <div class="input-field col m12 s12">
+                                <i class="material-icons amber-text prefix">apps</i>
+                                <input id="label" name="label" type="text" value="@(Model == null ? "" : Model.Label)">
+                                <label for="label">Label</label>
+                            </div>
+                        </div>
+                      
+                        
+
+                        <div class="input-field col s12">
+                            <button class="btn cyan waves-effect waves-light right" type="submit" name="action">
+                              Save
+                              <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+

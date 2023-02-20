@@ -1,0 +1,49 @@
+﻿@using ASP.Server.Model
+@model Auteur
+@{
+    ViewData["Title"] = (Model == null ? "Add a author" : "Update author");
+}
+
+
+<section class="cars-list-wrapper section">
+
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <div class="card card card-default scrollspy">
+                <div class="card-content">
+                    <h4>@(Model == null ? "Add a author" : "Update author")</h4>
+                    <form method="post" action="@Url.Action("Create", "Auteur")">
+                        <input id="id" name="id" type="hidden" value="@(Model == null ? 0 : Model.Id)">
+                        <div class="row">
+                            <div class="input-field col m12 s12">
+                                <i class="material-icons blue-text prefix">account_circle</i>
+                                <input id="name" name="name" type="text" value="@(Model == null ? "" : Model.Name)">
+                                <label for="name">Name</label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col m12 s12">
+                                <i class="material-icons black-text prefix">timelapse</i>
+                                <input id="age" name="age" type="number" value="@(Model == null ? "" : Model.Age)">
+                                <label for="age">Age</label>
+                            </div>
+                        </div>
+
+
+
+                        <div class="input-field col s12">
+                            <button class="btn cyan waves-effect waves-light right" type="submit" name="action">
+                                Save
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+

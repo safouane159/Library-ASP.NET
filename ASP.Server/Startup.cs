@@ -34,6 +34,7 @@ namespace ASP.Server
             });
             services.AddScoped<GenreService>();
             services.AddScoped<BookService>();
+            services.AddScoped<AuteurService>();
         }
         public class CustomBinderProvider : IModelBinderProvider
         {

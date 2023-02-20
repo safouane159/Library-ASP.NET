@@ -15,14 +15,13 @@ namespace ASP.Server.Database
 
         public DbSet<Book> Books { get; set; }
         public DbSet<Genre> Genres { get; internal set; }
-      
+        public DbSet<Auteur> Auteurs { get; internal set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
             modelBuilder.Entity<Book>().ToTable("Book");
             modelBuilder.Entity<Genre>().ToTable("Genre");
-
-       
+            modelBuilder.Entity<Auteur>().ToTable("Auteur");
         }
     }
 }

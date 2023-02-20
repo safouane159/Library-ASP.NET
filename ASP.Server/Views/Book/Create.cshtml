@@ -1,34 +1,129 @@
-﻿@using ASP.Server.Controllers
-@model CreateBookModel
+﻿@using ASP.Server.Model
+@model Book
 @{
-    ViewData["Title"] = "Add a book";
+    ViewData["Title"] = (Model == null ? "Add a book" : "Update book");
 }
-<style>
-.input-group {
-    margin-top:10px;
-    display:flex;
-    justify-content:space-between;
-    flex-wrap:wrap;
-}
-input, textarea, select {
-    flex-basis:85%;
-}
-label {
-    flex-basis:10%;
-}
-</style>
 
-<!-- Voici une facon de faire, mais ce n'est pas la seul, a vous de jouer ! -->
-<form asp-controller="Book" asp-action="Create">
-    <div class="input-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" />
+
+<section class="cars-list-wrapper section">
+
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <div class="card card card-default scrollspy">
+                <div class="card-content">
+                    <h4>@(Model == null ? "Add a book" : "Update book")</h4>
+                    <form method="post" action="@Url.Action("Create", "Book")">
+                        <input id="id" name="id" type="hidden" value="@(Model == null ? 0 : Model.Id)">
+                        <div class="row">
+                            <div class="input-field col m12 s12">
+                                <i class="material-icons amber-text prefix">book</i>
+                                <input id="title" name="title" type="text" value="@(Model == null ? "" : Model.Titre)">
+                                <label for="title">Title</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col m6 s12">
+                                <div>
+                                    <i class="material-icons red-text prefix">account_circle</i>
+                                    <label>Author</label>
+                                </div>
+                                <div class="input-field">
+                                    <select class="select2 browser-default" name="author">
+                                        <optgroup label="Authors">
+                                            @foreach (Auteur author in ViewBag.Auteurs)
+                                            {
+                                                if (Model == null)
+                                                {
+                                                    <option value="@author.Id">@author.Name</option>
+                                                }
+                                                else
+                                                {
+                                                    if (author.Id == Model.Auteur.Id)
+                                                    {
+                                                        <option value="@author.Id" selected>@author.Name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@author.Id">@author.Name</option>
+                                                    }
+                                                }
+
+
+                                            }
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="input-field col m6 s12">
+                                <i class="material-icons black-text prefix">attach_money</i>
+                                <input id="price" name="price" type="number" value="@(Model == null ? "" : Model.Prix)">
+                                <label for="price">Price</label>
+                            </div>
+                            <div class="input-field col m12 s12">
+                                <div>
+                                    <i class="material-icons black-text prefix">apps</i>
+                                    <label>Categories</label>
+                                </div>
+
+
+                                <div class="input-field">
+                                    <select class="select2 browser-default" multiple="multiple" name="categories">
+                                        <optgroup label="Categories">
+                                            @foreach (Genre genre in ViewBag.Genres)
+                                            {
+
+                                                    bool isSelected = false;
+                                                
+
+                                                if (Model == null)
+                                                {
+                                                    <option value="@genre.Id">@genre.Label</option>
+                                                }
+                                                else
+                                                {
+                                                    @foreach (Genre g in Model.Genres)
+                                                    {
+                                                        if (genre.Id == g.Id)
+                                                        {
+                                                            <option value="@genre.Id" selected>@genre.Label</option>
+                                                            isSelected = true;
+                                                            break;
+                                                        }
+
+
+                                                    }
+
+                                                    if (!isSelected)
+                                                    {
+                                                        <option value="@genre.Id">@genre.Label</option>
+                                                    }
+                                                }
+
+                                            }
+
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="input-field col m12 s12">
+                                <i class="material-icons gray-text prefix">short_text</i>
+                                <textarea id="content" name="content" rows="25" class="materialize-textarea">@(Model == null ? "" : Model.Contenu)</textarea>
+                                <label for="content">Content</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <button class="btn cyan waves-effect waves-light right" type="submit" name="action">
+                                    Save
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="input-group">
-        <label asp-for="Genres"></label>
-        <!--Si la page rend une erreur a cette ligne, c'est que vous n'avez pas envoyé la liste des genres dans le Controller !!! ! -->
-        <select asp-for="Genres" asp-items="@(new SelectList(Model.AllGenres,"Id","Name"))">
-        </select>
-    </div>
-    <input type="submit" value="Add" style="width: 100%; margin-top: 50px" />
-</form>
+
+</section>
+
+

@@ -6,20 +6,43 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using ASP.Server.Service;
 
 namespace ASP.Server.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private BookService bookService;
+        private GenreService genreService;
+        private AuteurService auteurService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, BookService bookService, GenreService genreService, AuteurService auteurService)
         {
             _logger = logger;
+            this.genreService = genreService;
+            this.bookService = bookService;
+            this.auteurService = auteurService;
         }
 
         public IActionResult Index()
         {
+
+            ViewBag.TotalBooks = bookService.GetTotalBooks();
+            ViewBag.TotalAuthors = auteurService.GetAllAuteurs().Count;
+            ViewBag.TotalCategories = genreService.GetGenres().Count;
+            ViewBag.TotalProfit = bookService.GetBooks().Sum(book => book.Prix);
+
+            ViewBag.BookMinWordCountName = bookService.GetBookWithMinWordCount().book.Titre;
+            ViewBag.BookMinWordCountId = bookService.GetBookWithMinWordCount().book.Id;
+            ViewBag.BookMinWordCountWC = bookService.GetBookWithMinWordCount().wordCount;
+
+            ViewBag.BookMaxWordCountName = bookService.GetBookWithMaxWordCount().book.Titre;
+            ViewBag.BookMaxWordCountId = bookService.GetBookWithMaxWordCount().book.Id;
+            ViewBag.BookMaxWordCountWC = bookService.GetBookWithMaxWordCount().wordCount;
+
+
+
             return View();
         }
 
